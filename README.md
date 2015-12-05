@@ -42,3 +42,14 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 [embedmongo-spring](https://github.com/jirutka/embedmongo-spring)
 
 [de.flapdoodle.embed.mongo](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo)
+
+
+### How test?
+
+	Run mvn package spring-boot:run 
+
+
+### How access?	
+
+	http://localhost:8080/
+	
