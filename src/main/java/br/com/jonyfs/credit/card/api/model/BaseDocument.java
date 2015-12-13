@@ -9,6 +9,10 @@ public class BaseDocument<ID extends Serializable> {
 	@Id
 	ID id;
 
+	public void setId(ID id) {
+		this.id = id;
+	}
+
 	public ID getId() {
 		return id;
 	}
