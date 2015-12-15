@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
