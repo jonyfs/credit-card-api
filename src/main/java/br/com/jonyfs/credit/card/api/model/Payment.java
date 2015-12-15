@@ -9,80 +9,64 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Document(collection = "payments")
+@JsonIgnoreProperties(ignoreUnknown = true, value = { "payment" })
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Payment extends BaseDocument<String> {
-	
-	@NotNull
-	CardType cardType;
 
-	@CreditCardNumber
-	String cardNumber;
+    @NotNull
+    CardType cardType;
 
-	@NotNull
-	Date expirationDate;
+    @CreditCardNumber
+    String cardNumber;
 
-	@NotNull
-	Store store;
+    @NotNull
+    Date expirationDate;
 
-	@NotEmpty
-	List<Product> products;
+    @NotNull
+    Store store;
 
-	public Payment(CardType cardType, String cardNumber, Date expirationDate, Store store, List<Product> products) {
-		super();
-		this.cardType = cardType;
-		this.cardNumber = cardNumber;
-		this.expirationDate = expirationDate;
-		this.store = store;
-		this.products = products;
-	}
+    @NotEmpty
+    List<Product> products;
 
-	public CardType getCardType() {
-		return cardType;
-	}
+    @JsonCreator
+    public Payment(@JsonProperty("cardType") CardType cardType, @JsonProperty("cardNumber") String cardNumber, @JsonProperty("expirationDate") Date expirationDate, @JsonProperty("store") Store store, @JsonProperty("products") List<Product> products) {
+        super();
+        this.cardType = cardType;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.store = store;
+        this.products = products;
+    }
 
-	public void setCardType(CardType cardType) {
-		this.cardType = cardType;
-	}
+    public CardType getCardType() {
+        return cardType;
+    }
 
-	public String getCardNumber() {
-		return cardNumber;
-	}
+    public String getCardNumber() {
+        return cardNumber;
+    }
 
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
-	}
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
 
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public Store getStore() {
+        return store;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public List<Product> getProducts() {
+        return products;
+    }
 
-	public Store getStore() {
-		return store;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Payment [cardType=%s, cardNumber=%s, expirationDate=%s, store=%s, products=%s, id=%s]",
-				cardType, cardNumber, expirationDate, store, products, id);
-	}
-
-
-	
-
+    @Override
+    public String toString() {
+        return String.format("Payment [cardType=%s, cardNumber=%s, expirationDate=%s, store=%s, products=%s, id=%s]",
+                cardType, cardNumber, expirationDate, store, products, id);
+    }
 }

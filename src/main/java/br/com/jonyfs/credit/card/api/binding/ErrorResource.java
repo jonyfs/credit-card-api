@@ -1,49 +1,84 @@
 package br.com.jonyfs.credit.card.api.binding;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ErrorResource {
-	private String code;
-	private String message;
-	private List<FieldErrorResource> fieldErrors;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ErrorResource implements Serializable {
 
-	public ErrorResource() {
-	}
+    private static final long serialVersionUID = -2415907856747146978L;
 
-	public ErrorResource(String code, String message) {
-		this.code = code;
-		this.message = message;
-	}
+    private String codigo;
+    private String exception;
+    private String mensagem;
+    private List<FieldErrorResource> erros;
+    private List<GlobalErrorResource> globalErros;
 
-	public String getCode() {
-		return code;
-	}
+    private String getErrorNumber() {
+        return Long.toHexString(System.currentTimeMillis());
+    }
 
-	public List<FieldErrorResource> getFieldErrors() {
-		return fieldErrors;
-	}
+    public ErrorResource(Throwable throwable) {
+        this.codigo = getErrorNumber();
+        this.exception = throwable.getClass().getSimpleName();
+        this.mensagem = throwable.getMessage();
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public ErrorResource(Throwable throwable, List<FieldErrorResource> erros) {
+        if (throwable == null) {
+            this.codigo = getErrorNumber();
+        } else {
+            this.codigo = getErrorNumber();
+            this.exception = throwable.getClass().getSimpleName();
+            this.mensagem = throwable.getMessage();
+        }
+        this.erros = erros;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public ErrorResource(Throwable throwable, List<GlobalErrorResource> globalErrors, List<FieldErrorResource> erros) {
+        if (throwable == null) {
+            this.codigo = getErrorNumber();
+        } else {
+            this.codigo = getErrorNumber();
+            this.exception = throwable.getClass().getSimpleName();
+            this.mensagem = throwable.getMessage();
+        }
+        this.erros = erros;
+        this.globalErros = globalErrors;
+    }
 
-	public void setFieldErrors(List<FieldErrorResource> fieldErrors) {
-		this.fieldErrors = fieldErrors;
-	}
+    public ErrorResource(String mensagem) {
+        this.codigo = getErrorNumber();
+        this.mensagem = mensagem;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getCodigo() {
+        return codigo;
+    }
 
-	@Override
-	public String toString() {
-		return "ErrorResource [code=" + code + ", message=" + message + ", fieldErrors=" + fieldErrors + "]";
-	}
+    public String getException() {
+        return exception;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public List<FieldErrorResource> getErros() {
+        return erros;
+    }
+
+    public List<GlobalErrorResource> getGlobalErros() {
+        return globalErros;
+    }
+
+    @Override
+    public String toString() {
+        return "ErrorResource [codigo=" + codigo + ", exception=" + exception + ", mensagem=" + mensagem + ", erros=" + erros + ", globalErros=" + globalErros + "]";
+    }
+
 }

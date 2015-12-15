@@ -2,27 +2,27 @@ package br.com.jonyfs.credit.card.api.model;
 
 import javax.validation.constraints.NotNull;
 
-public class Store{
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	@NotNull
-	private String name;
+public class Store {
 
-	public Store(String name) {
-		super();
-		this.name = name;
-	}
+    @NotNull
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @JsonCreator
+    public Store(@JsonProperty("name") String name) {
+        super();
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("Store [name=%s]", name);
-	}
-	
-	
-	
-	
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Store [name=%s]", name);
+    }
 
 }

@@ -1,48 +1,26 @@
 package br.com.jonyfs.credit.card.api.binding;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FieldErrorResource {
-	private String resource;
-	private String field;
-	private String code;
-	private String message;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class FieldErrorResource extends GlobalErrorResource {
 
-	public String getResource() {
-		return resource;
-	}
+    private String parametro;
 
-	public void setResource(String resource) {
-		this.resource = resource;
-	}
+    public FieldErrorResource(String parametro, String codigo, String mensagem) {
+        super(codigo, mensagem);
+        this.parametro = parametro;
+    }
 
-	public String getField() {
-		return field;
-	}
+    public String getParametro() {
+        return parametro;
+    }
 
-	public void setField(String field) {
-		this.field = field;
-	}
+    @Override
+    public String toString() {
+        return "FieldErrorResource [parametro=" + parametro + ", codigo=" + getCodigo() + ", mensagem=" + getMensagem() + "]";
+    }
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	@Override
-	public String toString() {
-		return "FieldErrorResource [field=" + field + ", code=" + code + ", resource=" + resource + ", message=" + message + "]";
-	}
 }

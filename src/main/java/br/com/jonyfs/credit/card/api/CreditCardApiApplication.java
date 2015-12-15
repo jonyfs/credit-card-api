@@ -2,7 +2,6 @@ package br.com.jonyfs.credit.card.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -20,31 +19,31 @@ import br.com.jonyfs.credit.card.api.repository.PaymentRepository;
 @SpringBootApplication
 public class CreditCardApiApplication {
 
-	@Autowired
-	PaymentRepository paymentRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(CreditCardApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CreditCardApiApplication.class, args);
+    }
 
-	@PostConstruct
-	public void init() {
-		java.util.List<Product> products = new ArrayList<>();
-		products.add(new Product("Bike", 115.50D));
-		products.add(new Product("iPhone 6S", 199.80D));
-		Date expirationDate = Calendar.getInstance().getTime();
-		Payment payment = new Payment(CardType.AMERICAN_EXPRESS, "4485317326500091", expirationDate,
-				new Store("Amazon"), products);
-	
-		paymentRepository.save(payment);
-		
-		payment = new Payment(CardType.VISA, "4485317326500090", expirationDate,
-				new Store("BestBuy"), products);
-		paymentRepository.save(payment);
-		
-		payment = new Payment(CardType.MASTERCARD, "4485317326500092", expirationDate,
-				new Store("Amazon"), products);
-		paymentRepository.save(payment);
-	}
+    @PostConstruct
+    public void init() {
+        java.util.List<Product> products = new ArrayList<>();
+        products.add(new Product("Bike", 115.50D));
+        products.add(new Product("iPhone 6S", 199.80D));
+        Date expirationDate = Calendar.getInstance().getTime();
+        Payment payment = new Payment(CardType.AMERICAN_EXPRESS, "4485317326500091", expirationDate,
+                new Store("Amazon"), products);
+
+        paymentRepository.save(payment);
+
+        payment = new Payment(CardType.VISA, "4485317326500090", expirationDate,
+                new Store("BestBuy"), products);
+        paymentRepository.save(payment);
+
+        payment = new Payment(CardType.MASTERCARD, "4485317326500092", expirationDate,
+                new Store("Amazon"), products);
+        paymentRepository.save(payment);
+    }
 
 }
