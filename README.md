@@ -1,6 +1,6 @@
 # Credit Card Api Sample
 
-	Sample with TDD, Spring Boot, Embedded MongoDB, HATEOAS, HAL Browser and Spring REST Docs
+	Sample with TDD, Spring Boot, Embedded MongoDB, HATEOAS, Spring REST Docs
 
 ### Model Class Diagram
 
@@ -32,8 +32,6 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 [Spring Boot](http://projects.spring.io/spring-boot/)
 
 [SPRING INITIALIZR](https://start.spring.io/)
-
-[Spring Data Rest HAL Browser](http://docs.spring.io/spring-data/rest/docs/current/reference/html/#_the_hal_browser)
 
 [Spring REST Docs](http://projects.spring.io/spring-restdocs)
 

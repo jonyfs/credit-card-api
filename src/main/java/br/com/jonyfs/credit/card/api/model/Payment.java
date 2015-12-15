@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "payments")
-public class Payment {
+public class Payment extends BaseDocument<String> {
 	
 	@NotNull
 	CardType cardType;
@@ -75,5 +75,14 @@ public class Payment {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Payment [cardType=%s, cardNumber=%s, expirationDate=%s, store=%s, products=%s, id=%s]",
+				cardType, cardNumber, expirationDate, store, products, id);
+	}
+
+
+	
 
 }

@@ -2,7 +2,7 @@ package br.com.jonyfs.credit.card.api.model;
 
 import javax.validation.constraints.NotNull;
 
-public class Store extends BaseDocument<Long> {
+public class Store{
 
 	@NotNull
 	private String name;
@@ -15,5 +15,14 @@ public class Store extends BaseDocument<Long> {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Store [name=%s]", name);
+	}
+	
+	
+	
+	
 
 }

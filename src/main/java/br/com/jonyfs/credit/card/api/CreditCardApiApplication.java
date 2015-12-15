@@ -6,11 +6,10 @@ import java.util.Currency;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import br.com.jonyfs.credit.card.api.model.CardType;
 import br.com.jonyfs.credit.card.api.model.Payment;
@@ -19,10 +18,9 @@ import br.com.jonyfs.credit.card.api.model.Store;
 import br.com.jonyfs.credit.card.api.repository.PaymentRepository;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "br.com.jonyfs")
 public class CreditCardApiApplication {
 
-	@Resource
+	@Autowired
 	PaymentRepository paymentRepository;
 
 	public static void main(String[] args) {
@@ -32,11 +30,21 @@ public class CreditCardApiApplication {
 	@PostConstruct
 	public void init() {
 		java.util.List<Product> products = new ArrayList<>();
-		products.add(new Product("Bike", 115.50D, Currency.getInstance("USD")));
-		products.add(new Product("iPhone 6S", 199.80D, Currency.getInstance("USD")));
+		products.add(new Product("Bike", 115.50D));
+		products.add(new Product("iPhone 6S", 199.80D));
 		Date expirationDate = Calendar.getInstance().getTime();
 		Payment payment = new Payment(CardType.AMERICAN_EXPRESS, "4485317326500091", expirationDate,
 				new Store("Amazon"), products);
-		//paymentRepository.save(payment);
+	
+		paymentRepository.save(payment);
+		
+		payment = new Payment(CardType.VISA, "4485317326500090", expirationDate,
+				new Store("BestBuy"), products);
+		paymentRepository.save(payment);
+		
+		payment = new Payment(CardType.MASTERCARD, "4485317326500092", expirationDate,
+				new Store("Amazon"), products);
+		paymentRepository.save(payment);
 	}
+
 }
