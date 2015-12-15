@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document(collection = "payments")
 @JsonIgnoreProperties(ignoreUnknown = true, value = { "payment" })
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Payment extends BaseDocument<String> {
 
     @NotNull
