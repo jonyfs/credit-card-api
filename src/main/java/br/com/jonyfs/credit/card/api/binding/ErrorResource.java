@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+//NOSONAR
 public class ErrorResource implements Serializable {
 
     private static final long serialVersionUID = -2415907856747146978L;
