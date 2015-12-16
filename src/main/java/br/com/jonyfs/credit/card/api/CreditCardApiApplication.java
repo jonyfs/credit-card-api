@@ -6,9 +6,12 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 import br.com.jonyfs.credit.card.api.model.CardType;
 import br.com.jonyfs.credit.card.api.model.Payment;
@@ -17,7 +20,11 @@ import br.com.jonyfs.credit.card.api.model.Store;
 import br.com.jonyfs.credit.card.api.repository.PaymentRepository;
 
 @SpringBootApplication
+@Import(GzipConfig.class)
 public class CreditCardApiApplication {
+    
+    public static final Logger LOGGER = LoggerFactory.getLogger(CreditCardApiApplication.class);
+
 
     @Autowired
     PaymentRepository paymentRepository;
@@ -44,6 +51,8 @@ public class CreditCardApiApplication {
         payment = new Payment(CardType.MASTERCARD, "4485317326500092", expirationDate,
                 new Store("Amazon"), products);
         paymentRepository.save(payment);
+        
+        LOGGER.info("STARTED");
     }
 
 }

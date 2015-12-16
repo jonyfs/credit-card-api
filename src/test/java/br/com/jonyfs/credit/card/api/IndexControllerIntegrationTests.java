@@ -1,5 +1,7 @@
 package br.com.jonyfs.credit.card.api;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -7,14 +9,13 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
@@ -58,16 +59,19 @@ public class IndexControllerIntegrationTests {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()));
 
-//         this.document.snippets(
-//         links(linkWithRel(ResourcePaths.Payment.NAME).description("The
-//         <<resources-documentos,Documentos resource>>"))
-//        
-//         );
+        // this.document.snippets(
+        // links(linkWithRel(ResourcePaths.Payment.NAME).description("The
+        // <<resources-documentos,Documentos resource>>"))
+        //
+        // );
 
         this.mockMvc.perform(get(ResourcePaths.ROOT_API).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document)
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect((jsonPath("$", notNullValue())))
+                .andExpect((jsonPath("$._links", notNullValue())))
+                .andExpect((jsonPath("$._links.payments", hasSize(3))));
     }
 
 }

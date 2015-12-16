@@ -24,6 +24,7 @@
 		<sonar.jacoco.reportsPath>${project.build.directory}/reports/jacoco</sonar.jacoco.reportsPath>
 		<sonar.jacoco.reportPath>${project.build.directory}/reports/jacoco/jacoco-ut.exec</sonar.jacoco.reportPath>
 		<sonar.jacoco.itReportPath>${project.build.directory}/reports/jacoco/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
 	</properties>
 
 	<dependencies>
@@ -204,6 +205,65 @@
 							<dataFile>${sonar.jacoco.itReportPath}</dataFile>
 							<!-- Sets the output directory for the code coverage report. -->
 							<outputDirectory>${sonar.jacoco.reportsPath}/jacoco-it</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.2</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj-pdf</artifactId>
+						<version>1.5.0-alpha.9</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<sourceDirectory>src/main/asciidoc</sourceDirectory>
+					<templateDir>src/main/asciidoc</templateDir>
+					<preserveDirectories>true</preserveDirectories>
+					<title>Credit Card API</title>
+					<attributes>
+						<snippets>${snippetsDirectory}</snippets>
+						<project-version>${project.version}</project-version>
+						<dev-endpoint-url>http://localhost:8080</dev-endpoint-url>
+						<test-endpoint-url>http://credit-card-api.testserver.com</test-endpoint-url>
+						<endpoint-url>http://credit-card-api.productionserver.com</endpoint-url>
+					</attributes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>output-html</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html5</backend>
+							<doctype>book</doctype>
+						</configuration>
+					</execution>
+					<execution>
+						<id>output-pdf</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>pdf</backend>
+							<sourceHighlighter>rouge</sourceHighlighter>
+							<attributes>
+								<toc>left</toc>
+								<icons>font</icons>
+								<idprefix />
+								<sectanchors>true</sectanchors>
+								<!-- set the idprefix to blank -->
+								<idprefix />
+								<idseparator>-</idseparator>
+								<docinfo1>true</docinfo1>
+							</attributes>
 						</configuration>
 					</execution>
 				</executions>

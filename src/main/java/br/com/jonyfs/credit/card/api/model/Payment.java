@@ -20,6 +20,7 @@ public class Payment extends BaseDocument<String> {
     @NotNull
     CardType cardType;
 
+    @NotNull
     @CreditCardNumber
     String cardNumber;
 

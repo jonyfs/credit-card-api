@@ -36,7 +36,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<ErrorResource> errorResponse(Throwable throwable, HttpStatus status, HttpServletRequest request) {
         if (null != throwable) {
             ErrorResource errorResource = new ErrorResource(throwable);
-            LOGGER.error("erro " + errorResource.getCodigo() + " capturado para ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
+            LOGGER.error("erro " + errorResource.getCode() + " capturado para ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
             return response(errorResource, status);
         } else {
             LOGGER.error("error for ip " + request.getRemoteAddr() + " ==> ", status);
@@ -47,7 +47,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<ErrorResource> errorResponse(Throwable throwable, List<FieldErrorResource> fieldErrors, HttpStatus status, HttpServletRequest request) {
         if (null != throwable) {
             ErrorResource errorResource = new ErrorResource(throwable, fieldErrors);
-            LOGGER.error("error " + errorResource.getCodigo() + " for ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
+            LOGGER.error("error " + errorResource.getCode() + " for ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
             return response(errorResource, status);
         } else {
             LOGGER.error("erro for ip " + request.getRemoteAddr() + " ==> ", status);

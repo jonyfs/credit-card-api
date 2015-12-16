@@ -1,0 +1,45 @@
+[[resources-payment]]
+== Payment
+
+The payment provides the entry point to do a payment and get a payment.
+
+[[resources-payment-access]]
+=== Accessing the payment resource
+
+==== version 1 (v1)
+	There is no documentation for this version
+	
+==== version 2 (v2)
+	There is no documentation for this version
+	
+==== version (v3)
+
+[[resources-payment-get]]
+===== How get a Payment info
+
+====== Path Parameters
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/path-parameters.adoc[]
+	
+====== Request
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-request.adoc[]
+
+====== Response
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-response.adoc[]
+
+====== Response Fields
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/response-fields.adoc[]
+
+[[resources-payment-post]]
+===== How send a Payment info to validate and confirm the payment transcation  
+
+====== Path Parameters
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/path-parameters.adoc[]
+	
+====== Request
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-request.adoc[]
+
+====== Response
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-response.adoc[]
+
+====== Response Fields
+include::{snippets}/api/v3/payments/verify-if-payment-created-exists/response-fields.adoc[]

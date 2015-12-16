@@ -1,0 +1,15 @@
+[[resources-index]]
+== Index
+
+The index provides the entry point into the service.
+
+
+
+[[resources-index-access]]
+=== Accessing the index
+
+A `GET` request is used to access the index
+
+==== Example response
+
+include::{snippets}/api/http-response.adoc[]
