@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.1.9" icons="true" automaticImage="PNG">  
+  <object id="1" language="java" name="br.com.jonyfs.credit.card.api.controller.PaymentControllerV3" 
+    project="credit-card-api" 
+    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/controller/PaymentControllerV3.java" 
+    binary="false" label="paymentControllerV3" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="167" y="0"/>    
+    <execution id="2">      
+      <position height="218" width="181" x="5" y="140"/>    
+    </execution>    
+    <execution id="5">      
+      <position height="21" width="7" x="92" y="295"/>    
+    </execution>  
+  </object>  
+  <object id="6" language="java" name="br.com.jonyfs.credit.card.api.service.PaymentService" project="credit-card-api" 
+    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/service/PaymentService.java" binary="false" 
+    label="paymentService" type="interface" autoSize="true">    
+    <position height="-1" width="-1" x="385" y="0"/>    
+    <execution id="4">      
+      <position height="176" width="171" x="190" y="161"/>    
+    </execution>    
+    <execution id="10">      
+      <position height="21" width="171" x="190" y="226"/>    
+    </execution>  
+  </object>  
+  <object id="11" language="java" name="br.com.jonyfs.credit.card.api.repository.PaymentRepository" 
+    project="credit-card-api" 
+    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/repository/PaymentRepository.java" binary="false" 
+    label="paymentRepository" type="interface" autoSize="true">    
+    <position height="-1" width="-1" x="627" y="0"/>    
+    <execution id="8">      
+      <position height="86" width="184" x="365" y="182"/>    
+    </execution>  
+  </object>  
+  <message id="3" 
+    operation="doPayment(br.com.jonyfs.credit.card.api.model.Payment):br.com.jonyfs.credit.card.api.model.Payment" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="7" operation="save(S):S" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="9" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </message>  
+  <message id="12" asynchronous="false">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>
+</sequence-diagram>

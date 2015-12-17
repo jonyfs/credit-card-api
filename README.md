@@ -7,10 +7,19 @@
 <img src="model-class-diagram.png" alt="Model Class Diagram" style="width: 800px;" />
 
 
-
 ### Api Class Diagram
 
 <img src="api-class-diagram.png" alt="Api Class Diagram" style="width: 800px;" />
+
+
+### Api Sequence Diagram - Do Payment
+
+<img src="api-sequence-diagram-do-payment.png" alt="Api Sequence Diagram - Do Payment" style="width: 800px;" />
+
+
+### Api Sequence Diagram - Get Payment
+
+<img src="api-sequence-diagram-get-payment.png" alt="Api Sequence Diagram - Get Payment" style="width: 800px;" />
 
 
 ### MongoDB Embebbed Config
@@ -41,8 +50,10 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 
 [de.flapdoodle.embed.mongo](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo)
 
+[AsciiDoctor](http://asciidoctor.org/)
 
-### AsciiDoc 
+
+### AsciiDoctor file
 
 See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master/src/main/asciidoc/credit-card-api.adoc) 
 
