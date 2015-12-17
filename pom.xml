@@ -11,7 +11,7 @@
 	<name>credit-card-api</name>
 	<description>Credit Card API Spring Boot Application</description>
 	<url>https://github.com/jonyfs/credit-card-api</url>
-	
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -21,20 +21,22 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
+		<jdk.version>1.8</jdk.version>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportsPath>${project.build.directory}/reports/jacoco</sonar.jacoco.reportsPath>
 		<sonar.jacoco.reportPath>${project.build.directory}/reports/jacoco/jacoco-ut.exec</sonar.jacoco.reportPath>
 		<sonar.jacoco.itReportPath>${project.build.directory}/reports/jacoco/jacoco-it.exec</sonar.jacoco.itReportPath>
 		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+		<maven.build.timestamp>${maven.build.timestamp}</maven.build.timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<timestamp>${maven.build.timestamp}</timestamp>
-   		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
 
 	<scm>
 		<connection>scm:git:git@github.com:jonyfs/credit-card-api.git</connection>
 		<url>scm:git:git@github.com:jonyfs/credit-card-api.git</url>
 		<developerConnection>scm:git:git@github.com:jonyfs/credit-card-api.git</developerConnection>
-  	</scm>
+	</scm>
 
 	<dependencies>
 		<dependency>
@@ -45,7 +47,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -86,20 +87,39 @@
 	<build>
 		<resources>
 			<resource>
-		        <directory>./src/main/resources</directory>
-		        <filtering>true</filtering>
-		    </resource>
-	    </resources>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<delimiters>
+						<delimiter>${*}</delimiter>
+						<delimiter>%%</delimiter>
+					</delimiters>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<debug>true</debug>
+					<debuglevel>lines,vars,source</debuglevel>
+				</configuration>
+			</plugin>
+			<plugin>
 				<!-- Separates the unit tests from the integration tests. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
 				<executions>
 					<execution>
 						<id>unit-tests</id>
