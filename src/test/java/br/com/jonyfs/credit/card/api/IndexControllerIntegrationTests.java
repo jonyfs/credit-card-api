@@ -55,7 +55,7 @@ public class IndexControllerIntegrationTests {
 
     @Test
     public void test() throws Exception {
-        this.document = document(ResourcePaths.ROOT_API,
+        this.document = document("." + ResourcePaths.ROOT_API,
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()));
 

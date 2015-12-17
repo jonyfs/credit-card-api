@@ -30,16 +30,14 @@ include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-respon
 include::{snippets}/api/v3/payments/verify-if-payment-created-exists/response-fields.adoc[]
 
 [[resources-payment-post]]
-===== How send a Payment info to validate and confirm the payment transcation  
+===== How send a Payment info to validate and confirm the payment transaction  
+	When the transaction is commited the service return a transaction id
 
-====== Path Parameters
-include::{snippets}/api/v3/payments/verify-if-payment-created-exists/path-parameters.adoc[]
+====== Request Fields
+include::{snippets}/api/v3/payments/verify-if-payment-was-created/request-fields.adoc[]
 	
 ====== Request
-include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-request.adoc[]
+include::{snippets}/api/v3/payments/verify-if-payment-was-created/http-request.adoc[]
 
 ====== Response
-include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-response.adoc[]
-
-====== Response Fields
-include::{snippets}/api/v3/payments/verify-if-payment-created-exists/response-fields.adoc[]
+include::{snippets}/api/v3/payments/verify-if-payment-was-created/http-response.adoc[]

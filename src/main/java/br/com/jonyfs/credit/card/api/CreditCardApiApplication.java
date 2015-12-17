@@ -20,7 +20,6 @@ import br.com.jonyfs.credit.card.api.model.Store;
 import br.com.jonyfs.credit.card.api.repository.PaymentRepository;
 
 @SpringBootApplication
-@Import(GzipConfig.class)
 public class CreditCardApiApplication {
     
     public static final Logger LOGGER = LoggerFactory.getLogger(CreditCardApiApplication.class);

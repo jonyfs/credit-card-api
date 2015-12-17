@@ -95,10 +95,24 @@ public class PaymentControllerV3IntegrationTests {
 
     }
 
-    public HttpHeaders getHeadersGzip() {
+//    public HttpHeaders getHeadersGzip() {
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add(HttpHeaders.CONTENT_ENCODING, "content-encoding:gzip");
+//        httpHeaders.add(HttpHeaders.ACCEPT_ENCODING, "accept-encoding:gzip");
+//        return httpHeaders;
+//
+//    }
+    
+    public HttpHeaders getRequestHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.CONTENT_ENCODING, "content-encoding:gzip");
-        httpHeaders.add(HttpHeaders.ACCEPT_ENCODING, "accept-encoding:gzip");
+        httpHeaders.add(HttpHeaders.ACCEPT_ENCODING, "gzip");
+        return httpHeaders;
+
+    }
+    
+    public HttpHeaders getResponseHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_ENCODING, "gzip");
         return httpHeaders;
 
     }
@@ -160,7 +174,7 @@ public class PaymentControllerV3IntegrationTests {
                 .perform(
                         post(ResourcePaths.Payment.V3.ROOT)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(getHeadersGzip())
+                                .headers(getRequestHeaders())
                                 .content(mapper.writeValueAsString(payment)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
@@ -170,8 +184,9 @@ public class PaymentControllerV3IntegrationTests {
                 .andExpect((jsonPath("$.exception", hasToString(InvalidRequestException.class.getSimpleName()))))
                 .andExpect(jsonPath("$.errors", hasSize(5)))
                 .andDo(
-                        document(ResourcePaths.Payment.V3.ROOT + "/{method-name}",
+                        document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
                                 preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
                                 responseFields(
                                         fieldWithPath("code").type(JsonFieldType.STRING).description("The code id of problem. Use it for support only"),
                                         fieldWithPath("exception").type(JsonFieldType.STRING).description("Exception"),
@@ -196,16 +211,15 @@ public class PaymentControllerV3IntegrationTests {
                 .perform(
                         post(ResourcePaths.Payment.V3.ROOT)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(getHeadersGzip())
+                                .headers(getRequestHeaders())
                                 .content(mapper.writeValueAsString(payment)))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect((jsonPath("$", notNullValue())))
                 .andDo(
-                        document(ResourcePaths.Payment.V3.ROOT + "/{method-name}",
+                        document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
                                 preprocessRequest(prettyPrint()),
-                                responseHeaders(headerWithName(HttpHeaders.CONTENT_ENCODING).description("content-encoding:gzip")),
-                                requestHeaders(headerWithName(HttpHeaders.CONTENT_ENCODING).description("content-encoding:gzip")),
+                                preprocessResponse(prettyPrint()),
                                 requestFields(
                                         fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
                                         fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
@@ -237,8 +251,7 @@ public class PaymentControllerV3IntegrationTests {
                 .perform(
                         get(ResourcePaths.Payment.V3.GET, payment.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(getHeadersGzip())
-                                .content(mapper.writeValueAsString(payment)))
+                                .headers(getRequestHeaders()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect((jsonPath("$", notNullValue())))
@@ -248,11 +261,11 @@ public class PaymentControllerV3IntegrationTests {
                 .andExpect((jsonPath("$.store", notNullValue())))
                 .andExpect(jsonPath("$.products", hasSize(2)))
                 .andDo(
-                        document(ResourcePaths.Payment.V3.ROOT + "/{method-name}",
+                        document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
                                 preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()), 
                                 pathParameters(parameterWithName("id").description("The Credit Card Transaction ID.")),
-                                responseHeaders(headerWithName(HttpHeaders.CONTENT_ENCODING).description("content-encoding:gzip")),
-                                requestHeaders(headerWithName(HttpHeaders.CONTENT_ENCODING).description("content-encoding:gzip")),
+                                                         
                                 responseFields(
                                         fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
                                         fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
