@@ -26,6 +26,8 @@
 		<sonar.jacoco.reportPath>${project.build.directory}/reports/jacoco/jacoco-ut.exec</sonar.jacoco.reportPath>
 		<sonar.jacoco.itReportPath>${project.build.directory}/reports/jacoco/jacoco-it.exec</sonar.jacoco.itReportPath>
 		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+		<timestamp>${maven.build.timestamp}</timestamp>
+   		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
 
 	<scm>
@@ -82,6 +84,12 @@
 
 
 	<build>
+		<resources>
+			<resource>
+		        <directory>./src/main/resources</directory>
+		        <filtering>true</filtering>
+		    </resource>
+	    </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

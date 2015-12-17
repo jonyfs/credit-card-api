@@ -13,12 +13,14 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 @RestController
 public class IndexController {
 
-    @RequestMapping(value = ResourcePaths.ROOT_API, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResourceSupport index() {
-        ResourceSupport index = new ResourceSupport();
-        index.add(linkTo(PaymentControllerV1.class).withRel("payments"),
-                linkTo(PaymentControllerV2.class).withRel("payments"),
-                linkTo(PaymentControllerV3.class).withRel("payments"));
-        return index;
-    }
+	@RequestMapping(value = ResourcePaths.ROOT_API, method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResourceSupport index() {
+		ResourceSupport index = new ResourceSupport();
+		index.add(linkTo(PaymentControllerV1.class).withRel("payments"),
+				linkTo(PaymentControllerV2.class).withRel("payments"),
+				linkTo(PaymentControllerV3.class).withRel("payments"),
+				linkTo(VersionController.class).withRel("version"));
+		return index;
+	}
 }

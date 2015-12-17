@@ -27,7 +27,7 @@
 * Database: credit-card
 * Collections: payments
 * url: localhost
-* port: 12345
+* port: 27057
 
 Obs.: I used [RoboMongo](http://robomongo.org/) client to access data in MongoDB.
 

@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.springframework.stereotype.Component;
 
 @RunWith(Suite.class) 
-@SuiteClasses({ IndexControllerIntegrationTests.class, PaymentControllerV3IntegrationTests.class })
+@SuiteClasses({ IndexControllerIntegrationTests.class, VersionControllerIntegrationTests.class, PaymentControllerV3IntegrationTests.class })
 @Component
 public class AllIntegrationTests {
 
