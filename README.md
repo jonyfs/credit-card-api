@@ -42,6 +42,10 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 [de.flapdoodle.embed.mongo](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo)
 
 
+### AsciiDoc 
+
+See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master/src/main/asciidoc/credit-card-api.adoc) 
+
 ### How test?
 
 	Run mvn package spring-boot:run 

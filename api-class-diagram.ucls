@@ -1,66 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.9" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="br.com.jonyfs.credit.card.api.controller.PaymentController" 
+  <class id="1" language="java" name="br.com.jonyfs.credit.card.api.controller.PaymentControllerV3" 
     project="credit-card-api" 
-    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/controller/PaymentController.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="117" width="297" x="254" y="37"/>    
+    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/controller/PaymentControllerV3.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="137" width="325" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="2" language="java" name="br.com.jonyfs.credit.card.api.repository.PaymentRepository" 
-    project="credit-card-api" 
-    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/repository/PaymentRepository.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="63" width="176" x="42" y="194"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="3" language="java" name="br.com.jonyfs.credit.card.api.service.PaymentServiceImpl" 
+  <class id="2" language="java" name="br.com.jonyfs.credit.card.api.service.PaymentServiceImpl" 
     project="credit-card-api" 
     file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/service/PaymentServiceImpl.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="117" width="172" x="42" y="37"/>    
+    <position height="137" width="215" x="756" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="br.com.jonyfs.credit.card.api.service.PaymentService" 
+  <interface id="3" language="java" name="br.com.jonyfs.credit.card.api.service.PaymentService" 
     project="credit-card-api" 
     file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/service/PaymentService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="99" width="172" x="258" y="194"/>    
+    <position height="-1" width="-1" x="528" y="323"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <association id="5">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="6" name="paymentRepository"/>      
-      <multiplicity id="7" minimum="0" maximum="1"/>    
+  <interface id="4" language="java" name="br.com.jonyfs.credit.card.api.repository.PaymentRepository" 
+    project="credit-card-api" 
+    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/repository/PaymentRepository.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="65" width="187" x="756" y="358"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="5" language="java" name="br.com.jonyfs.credit.card.api.model.Payment" project="credit-card-api" 
+    file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/model/Payment.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="232" y="423"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="6">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <association id="7">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="8" name="paymentService">        
+        <position height="19" width="99" x="265" y="237"/>      
+      </attribute>      
+      <multiplicity id="9" minimum="0" maximum="1">        
+        <position height="17" width="25" x="368" y="238"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="8">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="4"/>  
-  </realization>  
-  <association id="9">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="10" name="paymentService"/>      
-      <multiplicity id="11" minimum="0" maximum="1"/>    
+  <association id="10">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="11" name="paymentRepository">        
+        <position height="19" width="117" x="687" y="328"/>      
+      </attribute>      
+      <multiplicity id="12" minimum="0" maximum="1">        
+        <position height="17" width="25" x="818" y="328"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

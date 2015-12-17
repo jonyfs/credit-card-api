@@ -59,12 +59,6 @@ public class IndexControllerIntegrationTests {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()));
 
-        // this.document.snippets(
-        // links(linkWithRel(ResourcePaths.Payment.NAME).description("The
-        // <<resources-documentos,Documentos resource>>"))
-        //
-        // );
-
         this.mockMvc.perform(get(ResourcePaths.ROOT_API).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document)

@@ -9,8 +9,9 @@
 	<packaging>jar</packaging>
 
 	<name>credit-card-api</name>
-	<description>Demo project for Spring Boot</description>
-
+	<description>Credit Card API Spring Boot Application</description>
+	<url>https://github.com/jonyfs/credit-card-api</url>
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -27,15 +28,17 @@
 		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
 	</properties>
 
+	<scm>
+		<connection>scm:git:git@github.com:jonyfs/credit-card-api.git</connection>
+		<url>scm:git:git@github.com:jonyfs/credit-card-api.git</url>
+		<developerConnection>scm:git:git@github.com:jonyfs/credit-card-api.git</developerConnection>
+  	</scm>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.data</groupId> -->
-		<!-- <artifactId>spring-data-rest-hal-browser</artifactId> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
@@ -270,6 +273,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

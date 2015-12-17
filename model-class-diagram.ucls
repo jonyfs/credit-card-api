@@ -4,7 +4,7 @@
   <class id="1" language="java" name="br.com.jonyfs.credit.card.api.model.Payment" project="credit-card-api" 
     file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/model/Payment.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="297" width="275" x="264" y="37"/>    
+    <position height="227" width="310" x="251" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -14,7 +14,7 @@
   <enumeration id="2" language="java" name="br.com.jonyfs.credit.card.api.model.CardType" project="credit-card-api" 
     file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/model/CardType.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="261" width="183" x="264" y="374"/>    
+    <position height="263" width="214" x="251" y="304"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -24,7 +24,7 @@
   <class id="3" language="java" name="br.com.jonyfs.credit.card.api.model.Store" project="credit-card-api" 
     file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/model/Store.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="621" y="459"/>    
+    <position height="137" width="170" x="505" y="304"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -34,7 +34,7 @@
   <class id="4" language="java" name="br.com.jonyfs.credit.card.api.model.Product" project="credit-card-api" 
     file="/credit-card-api/src/main/java/br/com/jonyfs/credit/card/api/model/Product.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="189" width="183" x="41" y="374"/>    
+    <position height="155" width="170" x="41" y="304"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -43,24 +43,36 @@
   </class>  
   <association id="5">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="6" name="store"/>      
-      <multiplicity id="7" minimum="0" maximum="1"/>    
+      <attribute id="6" name="store">        
+        <position height="19" width="38" x="531" y="277"/>      
+      </attribute>      
+      <multiplicity id="7" minimum="0" maximum="1">        
+        <position height="17" width="25" x="575" y="279"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="8">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="9" name="cardType"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
+      <attribute id="9" name="cardType">        
+        <position height="19" width="62" x="291" y="273"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="1">        
+        <position height="17" width="25" x="359" y="274"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="11">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="12" name="products"/>      
-      <multiplicity id="13" minimum="0" maximum="2147483647"/>    
+      <attribute id="12" name="products">        
+        <position height="19" width="58" x="140" y="274"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="2147483647">        
+        <position height="17" width="23" x="203" y="274"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

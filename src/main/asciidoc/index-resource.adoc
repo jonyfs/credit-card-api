@@ -1,8 +1,8 @@
+'''
 [[resources-index]]
 == Index
 
-The index provides the entry point into the service.
-
+NOTE: The index provides the entry point into the service.
 
 
 [[resources-index-access]]
