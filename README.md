@@ -1,6 +1,7 @@
 # Credit Card Api Sample
 
 	Sample with TDD, Spring Boot, Embedded MongoDB, HATEOAS, Spring REST Docs
+		
 
 ### Model Class Diagram
 
@@ -56,6 +57,10 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 ### AsciiDoctor file
 
 See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master/src/main/asciidoc/credit-card-api.adoc) 
+
+### Continuous integration
+
+[ ![Codeship Status for jonyfs/credit-card-api](https://codeship.com/projects/1aedda50-85c9-0133-cc21-12253304c6fc/status?branch=master)](https://codeship.com/projects/122440)
 
 ### How test?
 
