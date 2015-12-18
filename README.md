@@ -69,5 +69,5 @@ See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master
 
 ### How access?	
 
-	http://localhost:8080/
+	http://localhost:8080/api
 	
