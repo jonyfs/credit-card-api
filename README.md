@@ -1,6 +1,6 @@
 # Credit Card Api Sample
 
-	Sample with TDD, Spring Boot, Embedded MongoDB, HATEOAS, Spring REST Docs
+	Sample with Integration Tests, Spring Boot, Embedded MongoDB, HATEOAS, Spring REST Docs and AsciiDoctor
 		
 
 ### Model Class Diagram
