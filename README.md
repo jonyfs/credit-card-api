@@ -70,8 +70,13 @@ See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master
 ### How access?	
 
 	http://localhost:8080/api
+
+	
+### API Document Sample	
+See [credit-card-api.pdf](https://github.com/jonyfs/credit-card-api/blob/master/doc/credit-card-api.pdf) 	
 	
 
 ### Online Example?	
 
 https://creditcardapi.herokuapp.com/api
+
