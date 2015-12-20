@@ -1,12 +1,11 @@
 package br.com.jonyfs.credit.card.api.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -24,39 +23,49 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.jonyfs.credit.card.api.exceptions.EntityNotFoundException;
 import br.com.jonyfs.credit.card.api.exceptions.InvalidRequestException;
 import br.com.jonyfs.credit.card.api.model.Payment;
+import br.com.jonyfs.credit.card.api.resource.PaymentResource;
+import br.com.jonyfs.credit.card.api.resource.PaymentResourceAssemblerV2;
 import br.com.jonyfs.credit.card.api.service.PaymentService;
 import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
 @RestController
+@ExposesResourceFor(Payment.class)
 @RequestMapping(value = ResourcePaths.Payment.V2.ROOT)
 public class PaymentControllerV2 {
 
 	@Resource
 	PaymentService paymentService;
 
+	@Resource
+	PaymentResourceAssemblerV2 paymentResourceAssembler;
+
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST)
-	public HttpEntity<Payment> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<org.springframework.hateoas.Resource<String>> doPayment(@RequestBody @Valid Payment payment,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
 		}
-		return new ResponseEntity<Payment>(paymentService.doPayment(payment), HttpStatus.OK);
+		payment = paymentService.doPayment(payment);
+
+		org.springframework.hateoas.Resource<String> resource = new org.springframework.hateoas.Resource<String>(
+				payment.getId());
+		resource.add(paymentResourceAssembler.linkToSingleResource(payment));
+
+		return new ResponseEntity<org.springframework.hateoas.Resource<String>>(resource, HttpStatus.CREATED);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = ResourcePaths.ID, method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public HttpEntity<org.springframework.hateoas.Resource<Payment>> getPayment(@PathVariable(value = "id") String id) {
+	public ResponseEntity<PaymentResource> getPayment(@PathVariable(value = "id") String id) {
 		Payment entity = paymentService.getPayment(id);
 		if (entity == null) {
 			throw new EntityNotFoundException(String.valueOf(id));
 		}
-		org.springframework.hateoas.Resource<Payment> resource = new org.springframework.hateoas.Resource<Payment>(
-				entity);
-
-		resource.add(buildLink(ResourcePaths.ID, "get", id));
-
-		return new ResponseEntity<org.springframework.hateoas.Resource<Payment>>(resource, HttpStatus.OK);
+		final PaymentResource resource = paymentResourceAssembler.toResource(entity);
+		return ResponseEntity.ok(resource);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -74,16 +83,6 @@ public class PaymentControllerV2 {
 			resource.add(buildPageLink(page.getTotalPages() - 1, page.getSize(), Link.REL_LAST));
 		}
 		return new ResponseEntity<org.springframework.hateoas.Resource<Page<Payment>>>(resource, HttpStatus.OK);
-	}
-
-	private Link buildLink(String path, String rel) {
-		return new Link(linkTo(getClass()).toUriComponentsBuilder().path(path).buildAndExpand().toUriString())
-				.withRel(rel);
-	}
-
-	private Link buildLink(String path, String rel, String id) {
-		return new Link(linkTo(getClass()).toUriComponentsBuilder().path(path).buildAndExpand(id).toUriString())
-				.withRel(rel);
 	}
 
 	private Link buildPageLink(int page, int size, String rel) {

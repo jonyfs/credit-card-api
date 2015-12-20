@@ -259,9 +259,9 @@
 					<attributes>
 						<snippets>${snippetsDirectory}</snippets>
 						<project-version>${project.version}</project-version>
-						<dev-endpoint-url>http://localhost:8080</dev-endpoint-url>
-						<test-endpoint-url>http://credit-card-api.testserver.com</test-endpoint-url>
-						<endpoint-url>http://credit-card-api.productionserver.com</endpoint-url>
+						<dev-endpoint-url>http://localhost:8080/api</dev-endpoint-url>
+						<test-endpoint-url>http://credit-card-api.testserver.com/api</test-endpoint-url>
+						<endpoint-url>https://creditcardapi.herokuapp.com/api</endpoint-url>
 					</attributes>
 				</configuration>
 				<executions>
@@ -299,6 +299,29 @@
 					</execution>
 				</executions>
 			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<artifactId>maven-resources-plugin</artifactId> -->
+<!-- 				<version>2.7</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>copy-resources</id> -->
+<!-- 						here the phase you need -->
+<!-- 						<phase>validate</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>copy-resources</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<outputDirectory>${basedir}/target/extra-resources</outputDirectory> -->
+<!-- 							<resources> -->
+<!-- 								<resource> -->
+<!-- 									<directory>src/non-packaged-resources</directory> -->
+<!-- 									<filtering>true</filtering> -->
+<!-- 								</resource> -->
+<!-- 							</resources> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 </project>

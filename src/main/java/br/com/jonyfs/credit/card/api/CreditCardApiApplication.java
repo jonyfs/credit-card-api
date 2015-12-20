@@ -42,19 +42,31 @@ public class CreditCardApiApplication {
 
 	@PostConstruct
 	public void init() {
-		java.util.List<Product> products = new ArrayList<>();
-		products.add(new Product("Bike", 115.50D));
-		products.add(new Product("iPhone 6S", 199.80D));
+		java.util.List<Product> list1 = new ArrayList<>();
+		list1.add(new Product("Bike", 115.50D));
+		list1.add(new Product("iPhone 6S", 199.80D));
+		
+		java.util.List<Product> list2 = new ArrayList<>();
+		list2.add(new Product("Nexus 9", 327.50D));
+		list2.add(new Product("Motorola Moto X 2014", 112.90D));
+		list2.add(new Product("iPhone 6S", 199.80D));
+		
+		java.util.List<Product> list3 = new ArrayList<>();
+		list3.add(new Product("Nexus 9", 327.50D));
+		list3.add(new Product("Nexus 9", 327.50D));
+		list3.add(new Product("Motorola Moto X 2014", 199.80D));
+		list3.add(new Product("iPhone 6S", 199.80D));
+		
 		Date expirationDate = Calendar.getInstance().getTime();
 		Payment payment = new Payment(CardType.AMERICAN_EXPRESS, "4485317326500091", expirationDate,
-				new Store("Amazon"), products);
+				new Store("Walmart"), list1);
 
 		paymentRepository.save(payment);
 
-		payment = new Payment(CardType.VISA, "4485317326500090", expirationDate, new Store("BestBuy"), products);
+		payment = new Payment(CardType.VISA, "4485317326500090", expirationDate, new Store("BestBuy"), list2);
 		paymentRepository.save(payment);
 
-		payment = new Payment(CardType.MASTERCARD, "4485317326500092", expirationDate, new Store("Amazon"), products);
+		payment = new Payment(CardType.MASTERCARD, "4485317326500092", expirationDate, new Store("Amazon"), list3);
 		paymentRepository.save(payment);
 
 		LOGGER.info("STARTED");

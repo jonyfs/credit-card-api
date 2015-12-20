@@ -1,7 +1,7 @@
 package br.com.jonyfs.credit.card.api;
 
 import static junit.framework.TestCase.assertNotNull;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -20,15 +20,18 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringStartsWith;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Before;
@@ -204,8 +207,11 @@ public class PaymentControllerV3IntegrationTests {
 		Payment payment = builder.build();
 
 		mockMvc.perform(post(ResourcePaths.Payment.V3.ROOT).contentType(MediaType.APPLICATION_JSON)
-				.headers(getRequestHeaders()).content(mapper.writeValueAsString(payment))).andDo(print())
-				.andExpect(status().isCreated()).andExpect((jsonPath("$", notNullValue())))
+				.headers(getRequestHeaders())
+				.content(mapper.writeValueAsString(payment))).andDo(print())
+				.andExpect(status().isCreated())
+				.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$._links", notNullValue())))
 				.andDo(document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
 						preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
 						requestFields(fieldWithPath("id").type(JsonFieldType.STRING)
@@ -245,10 +251,12 @@ public class PaymentControllerV3IntegrationTests {
 
 		mockMvc.perform(get(ResourcePaths.Payment.V3.GET, payment.getId()).contentType(MediaType.APPLICATION_JSON)
 				.headers(getRequestHeaders())).andDo(print()).andExpect(status().isOk())
-				.andExpect((jsonPath("$", notNullValue()))).andExpect((jsonPath("$.id", notNullValue())))
+				.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$.id", notNullValue())))
 				.andExpect((jsonPath("$.cardType", notNullValue())))
 				.andExpect((jsonPath("$.expirationDate", notNullValue())))
-				.andExpect((jsonPath("$.store", notNullValue()))).andExpect(jsonPath("$.products", hasSize(2)))
+				.andExpect((jsonPath("$.store", notNullValue())))
+				.andExpect(jsonPath("$.products", hasSize(2)))
 				.andDo(document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
 						preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
 						pathParameters(parameterWithName("id").description("The Credit Card Transaction ID.")),

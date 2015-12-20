@@ -7,8 +7,9 @@ import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.Link;
-import org.springframework.http.HttpEntity;
+import org.springframework.hateoas.ExposesResourceFor;
+import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,77 +20,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.jonyfs.credit.card.api.exceptions.EntityNotFoundException;
 import br.com.jonyfs.credit.card.api.exceptions.InvalidRequestException;
 import br.com.jonyfs.credit.card.api.model.Payment;
+import br.com.jonyfs.credit.card.api.resource.PaymentResource;
+import br.com.jonyfs.credit.card.api.resource.PaymentResourceAssemblerV1;
 import br.com.jonyfs.credit.card.api.service.PaymentService;
 import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
 @RestController
+@ExposesResourceFor(Payment.class)
 @RequestMapping(value = ResourcePaths.Payment.V1.ROOT)
 public class PaymentControllerV1 {
 
 	@Resource
 	PaymentService paymentService;
 
+	@Resource
+	PaymentResourceAssemblerV1 paymentResourceAssembler;
+
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST)
-	public HttpEntity<Payment> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
+	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Void> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
 		}
-		return new ResponseEntity<Payment>(paymentService.doPayment(payment), HttpStatus.OK);
+		payment = paymentService.doPayment(payment);
+
+		final HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", paymentResourceAssembler.linkToSingleResource(payment).getHref());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = ResourcePaths.ID, method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public HttpEntity<org.springframework.hateoas.Resource<Payment>> getPayment(@PathVariable(value = "id") String id) {
+	public ResponseEntity<PaymentResource> getPayment(@PathVariable(value = "id") String id) {
 		Payment entity = paymentService.getPayment(id);
 		if (entity == null) {
 			throw new EntityNotFoundException(String.valueOf(id));
 		}
-		org.springframework.hateoas.Resource<Payment> resource = new org.springframework.hateoas.Resource<Payment>(
-				entity);
-
-		resource.add(buildLink(ResourcePaths.ID, "get", id));
-
-		return new ResponseEntity<org.springframework.hateoas.Resource<Payment>>(resource, HttpStatus.OK);
+		final PaymentResource resource = paymentResourceAssembler.toResource(entity);
+		return ResponseEntity.ok(resource);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public HttpEntity<org.springframework.hateoas.Resource<Page<Payment>>> query(Pageable pageable) {
+	public ResponseEntity<Resources<PaymentResource>> query(Pageable pageable) {
 		org.springframework.hateoas.Resource<Page<Payment>> resource = new org.springframework.hateoas.Resource<Page<Payment>>(
 				paymentService.findAll(pageable));
 		Page<Payment> page = resource.getContent();
-		if (page.hasNext()) {
-			resource.add(buildPageLink(page.getNumber() + 1, page.getSize(), Link.REL_NEXT));
-		}
-		if (page.hasPrevious()) {
-			resource.add(buildPageLink(page.getNumber() - 1, page.getSize(), Link.REL_PREVIOUS));
-		}
-		if (page.getTotalPages() > 0) {
-			resource.add(buildPageLink(page.getTotalPages() - 1, page.getSize(), Link.REL_LAST));
-		}
-		return new ResponseEntity<org.springframework.hateoas.Resource<Page<Payment>>>(resource, HttpStatus.OK);
-	}
-
-	private Link buildLink(String path, String rel) {
-		return new Link(linkTo(getClass()).toUriComponentsBuilder().path(path).buildAndExpand().toUriString())
-				.withRel(rel);
-	}
-
-	private Link buildLink(String path, String rel, String id) {
-		return new Link(linkTo(getClass()).toUriComponentsBuilder().path(path).buildAndExpand(id).toUriString())
-				.withRel(rel);
-	}
-
-	private Link buildPageLink(int page, int size, String rel) {
-		String path = ServletUriComponentsBuilder.fromCurrentRequestUri().queryParam("page", page)
-				.queryParam("size", size).build().toUriString();
-		Link link = new Link(path, rel);
-		return link;
+		return ResponseEntity.ok(new Resources<PaymentResource>(paymentResourceAssembler.toPageResources(page),
+				linkTo(this.getClass()).withSelfRel()));
 	}
 }

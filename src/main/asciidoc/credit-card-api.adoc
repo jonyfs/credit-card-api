@@ -1,20 +1,18 @@
 = Credit Card API - Access Guide
-
 Version: {project-version}
-
-AsciiDoc Writer https://br.linkedin.com/in/jonyfs[Jony Santos @ *linkedin*]
-
-:doctype: book
 :toc:
 :sectanchors:
 :sectlinks:
 :toclevels: 6
 :source-highlighter: highlightjs
+:homepage: https://github.com/jonyfs/credit-card-api
 
 [[overview]]
 == Overview
 	
 NOTE: Credit Card Api is a RestFul application built with Spring Boot and Embedded MongoDB
+It's based on Level 3 of the famous http://martinfowler.com/articles/richardsonMaturityModel.html[Richardson Maturity Model]. This is one of the most discussed subjects about API design.
+This source code is hosted in {homepage}.
 	
 [[endpointUrl]]
 == Endpoints
@@ -88,10 +86,11 @@ Language (HAL)] format. Links can be found benath the `_links` key. Users of the
 not created URIs themselves, instead they should use the above-described links to navigate
 from resource to resource.
 
+<<<
+
 [[resources]]
-= Resources
-
+== Resources
 include::index-resource.adoc[]
-
+<<<
 include::payment-resource.adoc[]
   

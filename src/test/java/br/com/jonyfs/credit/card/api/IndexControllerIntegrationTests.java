@@ -34,38 +34,35 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 @WebAppConfiguration
 public class IndexControllerIntegrationTests {
 
-    protected MockMvc mockMvc;
+	protected MockMvc mockMvc;
 
-    @Rule
-    public final RestDocumentation restDocumentation = new RestDocumentation("target/generated-snippets");
+	@Rule
+	public final RestDocumentation restDocumentation = new RestDocumentation("target/generated-snippets");
 
-    private RestDocumentationResultHandler document;
+	private RestDocumentationResultHandler document;
 
-    @Autowired
-    private WebApplicationContext wac;
+	@Autowired
+	private WebApplicationContext wac;
 
-    @Before
-    public void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .apply(documentationConfiguration(this.restDocumentation)
-                        .uris())
-                .build();
-    }
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+				.apply(documentationConfiguration(this.restDocumentation).uris()).build();
+	}
 
-    @Test
-    public void test() throws Exception {
-        this.document = document("." + ResourcePaths.ROOT_API,
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()));
+	@Test
+	public void test() throws Exception {
+		this.document = document("." + ResourcePaths.ROOT_API, preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()));
 
-        this.mockMvc.perform(get(ResourcePaths.ROOT_API).accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andDo(document)
-                .andExpect(status().isOk())
-                .andExpect((jsonPath("$", notNullValue())))
-                .andExpect((jsonPath("$._links", notNullValue())))
-                .andExpect((jsonPath("$._links.payments", hasSize(3))));
-    }
+		this.mockMvc.perform(get(ResourcePaths.ROOT_API).accept(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andDo(document)
+				.andExpect(status().isOk())
+				.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$._links", notNullValue())))
+				.andExpect((jsonPath("$._links.ex:payments", hasSize(3))));
+	}
 
 }

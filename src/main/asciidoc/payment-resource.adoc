@@ -1,4 +1,3 @@
-'''
 [[resources-payment]]
 == Payment
 
@@ -12,8 +11,10 @@ NOTE: The payment resource provides the entry point to do a payment and get a pa
 	
 ==== version 2 (v2)
 	There is no documentation for this version
+
+<<<
 	
-==== version (v3)
+==== version 3 (v3)
 [[resources-payment-get]]
 ===== How get a Payment info
 
@@ -29,7 +30,7 @@ include::{snippets}/api/v3/payments/verify-if-payment-created-exists/http-respon
 ====== Response Fields
 include::{snippets}/api/v3/payments/verify-if-payment-created-exists/response-fields.adoc[]
 
-
+<<<
 [[resources-payment-post]]
 ===== How send a Payment info to validate and confirm the payment transaction  
 NOTE: When the transaction is commited the service return a transaction id
