@@ -76,7 +76,7 @@ See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master
 See [credit-card-api.pdf](https://github.com/jonyfs/credit-card-api/blob/master/doc/credit-card-api.pdf) 	
 	
 
-### Online Example?	
+### Online Example	
 
 https://creditcardapi.herokuapp.com/api
 
