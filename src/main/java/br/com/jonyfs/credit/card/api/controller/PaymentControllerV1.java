@@ -1,10 +1,10 @@
 package br.com.jonyfs.credit.card.api.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
+import org.springframework.data.web.PagedResourcesAssembler;
 import javax.annotation.Resource;
 import javax.validation.Valid;
-
+import org.springframework.hateoas.PagedResources;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -34,44 +34,42 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 @RequestMapping(value = ResourcePaths.Payment.V1.ROOT)
 public class PaymentControllerV1 {
 
-	@Resource
-	PaymentService paymentService;
+    @Resource
+    PaymentService paymentService;
 
-	@Resource
-	PaymentResourceAssemblerV1 paymentResourceAssembler;
+    @Resource
+    PaymentResourceAssemblerV1 paymentResourceAssembler;
 
-	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Void> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
-		}
-		payment = paymentService.doPayment(payment);
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {
+        MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
+        }
+        payment = paymentService.doPayment(payment);
 
-		final HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", paymentResourceAssembler.linkToSingleResource(payment).getHref());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-	}
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", paymentResourceAssembler.linkToSingleResource(payment).getHref());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
 
-	@ResponseBody
-	@RequestMapping(value = ResourcePaths.ID, method = RequestMethod.GET, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<PaymentResource> getPayment(@PathVariable(value = "id") String id) {
-		Payment entity = paymentService.getPayment(id);
-		if (entity == null) {
-			throw new EntityNotFoundException(String.valueOf(id));
-		}
-		final PaymentResource resource = paymentResourceAssembler.toResource(entity);
-		return ResponseEntity.ok(resource);
-	}
+    @ResponseBody
+    @RequestMapping(value = ResourcePaths.ID, method = RequestMethod.GET, produces = {
+        MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<PaymentResource> getPayment(@PathVariable(value = "id") String id) {
+        Payment entity = paymentService.getPayment(id);
+        if (entity == null) {
+            throw new EntityNotFoundException(String.valueOf(id));
+        }
+        final PaymentResource resource = paymentResourceAssembler.toResource(entity);
+        return ResponseEntity.ok(resource);
+    }
 
-	@RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Resources<PaymentResource>> query(Pageable pageable) {
-		org.springframework.hateoas.Resource<Page<Payment>> resource = new org.springframework.hateoas.Resource<Page<Payment>>(
-				paymentService.findAll(pageable));
-		Page<Payment> page = resource.getContent();
-		return ResponseEntity.ok(new Resources<PaymentResource>(paymentResourceAssembler.toPageResources(page),
-				linkTo(this.getClass()).withSelfRel()));
-	}
+
+    @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public PagedResources<Payment> query(Pageable pageable, PagedResourcesAssembler assembler) {
+        Page<Payment> payments = paymentService.findAll(pageable);
+        return assembler.toResource(payments, paymentResourceAssembler);
+    }
 }

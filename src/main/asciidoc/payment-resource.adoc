@@ -43,3 +43,13 @@ include::{snippets}/api/v3/payments/verify-if-payment-was-created/http-request.a
 
 ====== Response
 include::{snippets}/api/v3/payments/verify-if-payment-was-created/http-response.adoc[]
+
+<<<
+[[resources-payment-post-falided]]
+===== Payment data validation exception. This occurs with invalid payment paramters
+
+====== Request
+include::{snippets}/api/v3/payments/verify-if-payment-has-no-data/http-request.adoc[]
+
+====== Response
+include::{snippets}/api/v3/payments/verify-if-payment-has-no-data/http-response.adoc[]
