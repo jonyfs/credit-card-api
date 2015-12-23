@@ -10,31 +10,31 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Document(collection = "payments")
-@JsonIgnoreProperties(ignoreUnknown = true, value = { "payment" })
+@Document(
+                collection = "payments")
 public class Payment extends BaseDocument<String> {
 
     @NotNull
-    CardType cardType;
+    CardType      cardType;
 
     @NotNull
     @CreditCardNumber
-    String cardNumber;
+    String        cardNumber;
 
     @NotNull
-    Date expirationDate;
+    Date          expirationDate;
 
     @NotNull
-    Store store;
+    Store         store;
 
     @NotEmpty
     List<Product> products;
 
     @JsonCreator
-    public Payment(@JsonProperty("cardType") CardType cardType, @JsonProperty("cardNumber") String cardNumber, @JsonProperty("expirationDate") Date expirationDate, @JsonProperty("store") Store store, @JsonProperty("products") List<Product> products) {
+    public Payment(@JsonProperty("cardType") CardType cardType, @JsonProperty("cardNumber") String cardNumber, @JsonProperty("expirationDate") Date expirationDate, @JsonProperty("store") Store store,
+                    @JsonProperty("products") List<Product> products) {
         super();
         this.cardType = cardType;
         this.cardNumber = cardNumber;
@@ -65,7 +65,6 @@ public class Payment extends BaseDocument<String> {
 
     @Override
     public String toString() {
-        return String.format("Payment [cardType=%s, cardNumber=%s, expirationDate=%s, store=%s, products=%s, id=%s]",
-                cardType, cardNumber, expirationDate, store, products, id);
+        return String.format("Payment [cardType=%s, cardNumber=%s, expirationDate=%s, store=%s, products=%s, id=%s]", cardType, cardNumber, expirationDate, store, products, id);
     }
 }

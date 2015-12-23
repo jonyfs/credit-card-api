@@ -1,3 +1,4 @@
+
 package br.com.jonyfs.credit.card.api.binding;
 
 import java.io.Serializable;
@@ -6,17 +7,18 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(
+                ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 // NOSONAR
 public class ErrorResource implements Serializable {
 
-    private static final long serialVersionUID = -2415907856747146978L;
+    private static final long         serialVersionUID = -2415907856747146978L;
 
-    private String code;
-    private String exception;
-    private String message;
-    private List<FieldErrorResource> errors;
+    private String                    code;
+    private String                    exception;
+    private String                    message;
+    private List<FieldErrorResource>  errors;
     private List<GlobalErrorResource> globalErrors;
 
     private String getErrorNumber() {
@@ -32,7 +34,8 @@ public class ErrorResource implements Serializable {
     public ErrorResource(Throwable throwable, List<FieldErrorResource> erros) {
         if (throwable == null) {
             this.code = getErrorNumber();
-        } else {
+        }
+        else {
             this.code = getErrorNumber();
             this.exception = throwable.getClass().getSimpleName();
             this.message = throwable.getMessage();
@@ -43,7 +46,8 @@ public class ErrorResource implements Serializable {
     public ErrorResource(Throwable throwable, List<GlobalErrorResource> globalErrors, List<FieldErrorResource> errors) {
         if (throwable == null) {
             this.code = getErrorNumber();
-        } else {
+        }
+        else {
             this.code = getErrorNumber();
             this.exception = throwable.getClass().getSimpleName();
             this.message = throwable.getMessage();

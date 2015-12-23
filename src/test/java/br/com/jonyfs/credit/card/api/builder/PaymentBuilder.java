@@ -11,10 +11,10 @@ import br.com.jonyfs.credit.card.api.model.Store;
 
 public class PaymentBuilder {
 
-    private CardType cardType;
-    private String cardNumber;
-    private Date expirationDate;
-    private Store store;
+    private CardType      cardType;
+    private String        cardNumber;
+    private Date          expirationDate;
+    private Store         store;
     private List<Product> products;
 
     public Payment build() {
@@ -35,7 +35,7 @@ public class PaymentBuilder {
         this.store = store;
         return this;
     }
-    
+
     public PaymentBuilder with(Date expirationDate) {
         this.expirationDate = expirationDate;
         return this;

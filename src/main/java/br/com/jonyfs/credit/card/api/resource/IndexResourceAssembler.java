@@ -17,27 +17,24 @@ import br.com.jonyfs.credit.card.api.controller.VersionController;
 
 @Service
 public class IndexResourceAssembler {
-	private final RelProvider relProvider;
-	private final EntityLinks entityLinks;
+    private final RelProvider relProvider;
+    private final EntityLinks entityLinks;
 
-	@Autowired
-	public IndexResourceAssembler(RelProvider relProvider, EntityLinks entityLinks) {
-		this.relProvider = relProvider;
-		this.entityLinks = entityLinks;
-	}
+    @Autowired
+    public IndexResourceAssembler(RelProvider relProvider, EntityLinks entityLinks) {
+        this.relProvider = relProvider;
+        this.entityLinks = entityLinks;
+    }
 
-	public IndexResource buildIndex() {
+    public IndexResource buildIndex() {
 
-		final IndexResource resource = new IndexResource("credit-card-api", "Credit Card API","Jony Santos","https://www.linkedin.com/in/jonyfs");
+        final IndexResource resource = new IndexResource("credit-card-api", "Credit Card API", "Jony Santos", "https://www.linkedin.com/in/jonyfs");
 
-		resource.add(linkTo(PaymentControllerV1.class).withRel("payments"),
-				linkTo(PaymentControllerV2.class).withRel("payments"),
-				linkTo(VersionController.class).withRel("version"));
-		// Note this is unfortunately hand-written. If you add a new entity,
-		// have to manually add a new link
-		final List<Link> links = asList(entityLinks.linkToCollectionResource(PaymentResource.class)
-				.withRel(relProvider.getCollectionResourceRelFor(PaymentResource.class)));
-		resource.add(links);
-		return resource;
-	}
+        resource.add(linkTo(PaymentControllerV1.class).withRel("payments"), linkTo(PaymentControllerV2.class).withRel("payments"), linkTo(VersionController.class).withRel("version"));
+        // Note this is unfortunately hand-written. If you add a new entity,
+        // have to manually add a new link
+        final List<Link> links = asList(entityLinks.linkToCollectionResource(PaymentResource.class).withRel(relProvider.getCollectionResourceRelFor(PaymentResource.class)));
+        resource.add(links);
+        return resource;
+    }
 }

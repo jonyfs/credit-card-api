@@ -14,12 +14,13 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
 @RestController
 public class IndexController {
-	
-	@Resource
-	private IndexResourceAssembler indexResourceAssembler;
 
-	   @RequestMapping(method=RequestMethod.GET,value = ResourcePaths.ROOT_API,produces = MediaType.APPLICATION_JSON_VALUE)
-	   public ResponseEntity<IndexResource> index() {
-	      return ResponseEntity.ok(indexResourceAssembler.buildIndex());
-	   }
+    @Resource
+    private IndexResourceAssembler indexResourceAssembler;
+
+    @RequestMapping(
+                    method = RequestMethod.GET, value = ResourcePaths.ROOT_API, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<IndexResource> index() {
+        return ResponseEntity.ok(indexResourceAssembler.buildIndex());
+    }
 }

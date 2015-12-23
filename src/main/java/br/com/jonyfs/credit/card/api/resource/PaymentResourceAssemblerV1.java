@@ -16,37 +16,34 @@ import br.com.jonyfs.credit.card.api.model.Payment;
 @Service
 public class PaymentResourceAssemblerV1 extends ResourceAssemblerSupport<Payment, PaymentResource> {
 
-	@Autowired
-	EntityLinks entityLinks;
+    @Autowired
+    EntityLinks entityLinks;
 
-	public PaymentResourceAssemblerV1() {
-		super(PaymentControllerV1.class, PaymentResource.class);
-	}
+    public PaymentResourceAssemblerV1() {
+        super(PaymentControllerV1.class, PaymentResource.class);
+    }
 
-	@Override
-	public PaymentResource toResource(Payment entity) {
-		PaymentResource resource = createResourceWithId(entity.getId(), entity);
-		return resource;
-	}
-	
-	
-	public List<PaymentResource> toPageResources(Page<Payment> page) {
-		List<PaymentResource> resources = new ArrayList<>();
-		for (Payment entity : page.getContent()) {
-			resources.add(toResource(entity));
-		}
-		// todo implementar a parte da página
-		return resources;
-	}
-	
+    @Override
+    public PaymentResource toResource(Payment entity) {
+        PaymentResource resource = createResourceWithId(entity.getId(), entity);
+        return resource;
+    }
 
+    public List<PaymentResource> toPageResources(Page<Payment> page) {
+        List<PaymentResource> resources = new ArrayList<>();
+        for (Payment entity : page.getContent()) {
+            resources.add(toResource(entity));
+        }
+        // todo implementar a parte da página
+        return resources;
+    }
 
-	@Override
-	protected PaymentResource instantiateResource(Payment entity) {
-		return new PaymentResource(entity);
-	}
+    @Override
+    protected PaymentResource instantiateResource(Payment entity) {
+        return new PaymentResource(entity);
+    }
 
-	public Link linkToSingleResource(Payment entity) {
-		return entityLinks.linkToSingleResource(PaymentResource.class, entity.getId());
-	}
+    public Link linkToSingleResource(Payment entity) {
+        return entityLinks.linkToSingleResource(PaymentResource.class, entity.getId());
+    }
 }

@@ -23,7 +23,6 @@ import br.com.jonyfs.credit.card.api.binding.FieldErrorResource;
 import br.com.jonyfs.credit.card.api.exceptions.EntityNotFoundException;
 import br.com.jonyfs.credit.card.api.exceptions.InvalidRequestException;
 
-
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     public static final Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
@@ -38,7 +37,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             ErrorResource errorResource = new ErrorResource(throwable);
             LOGGER.error("erro " + errorResource.getCode() + " capturado para ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
             return response(errorResource, status);
-        } else {
+        }
+        else {
             LOGGER.error("error for ip " + request.getRemoteAddr() + " ==> ", status);
             return response(null, status);
         }
@@ -49,7 +49,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             ErrorResource errorResource = new ErrorResource(throwable, fieldErrors);
             LOGGER.error("error " + errorResource.getCode() + " for ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
             return response(errorResource, status);
-        } else {
+        }
+        else {
             LOGGER.error("erro for ip " + request.getRemoteAddr() + " ==> ", status);
             return response(null, status);
         }

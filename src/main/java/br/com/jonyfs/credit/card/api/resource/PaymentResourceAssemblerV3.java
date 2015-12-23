@@ -12,25 +12,25 @@ import br.com.jonyfs.credit.card.api.model.Payment;
 @Service
 public class PaymentResourceAssemblerV3 extends ResourceAssemblerSupport<Payment, PaymentResource> {
 
-	@Autowired
-	EntityLinks entityLinks;
+    @Autowired
+    EntityLinks entityLinks;
 
-	public PaymentResourceAssemblerV3() {
-		super(PaymentControllerV3.class, PaymentResource.class);
-	}
+    public PaymentResourceAssemblerV3() {
+        super(PaymentControllerV3.class, PaymentResource.class);
+    }
 
-	@Override
-	public PaymentResource toResource(Payment entity) {
-		PaymentResource resource = createResourceWithId(entity.getId(), entity);
-		return resource;
-	}
+    @Override
+    public PaymentResource toResource(Payment entity) {
+        PaymentResource resource = createResourceWithId(entity.getId(), entity);
+        return resource;
+    }
 
-	@Override
-	protected PaymentResource instantiateResource(Payment entity) {
-		return new PaymentResource(entity);
-	}
+    @Override
+    protected PaymentResource instantiateResource(Payment entity) {
+        return new PaymentResource(entity);
+    }
 
-	public Link linkToSingleResource(Payment entity) {
-		return entityLinks.linkToSingleResource(PaymentResource.class, entity.getId());
-	}
+    public Link linkToSingleResource(Payment entity) {
+        return entityLinks.linkToSingleResource(PaymentResource.class, entity.getId());
+    }
 }

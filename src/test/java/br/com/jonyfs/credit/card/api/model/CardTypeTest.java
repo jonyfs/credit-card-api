@@ -1,6 +1,5 @@
 package br.com.jonyfs.credit.card.api.model;
 
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

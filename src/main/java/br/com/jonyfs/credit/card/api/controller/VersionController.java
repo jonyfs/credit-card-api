@@ -14,7 +14,8 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
 @PropertySource("classpath:/application.properties")
 @RestController
-@RequestMapping(value = ResourcePaths.Version.ROOT)
+@RequestMapping(
+                value = ResourcePaths.Version.ROOT)
 public class VersionController {
 
     @Value("${version}")
@@ -23,7 +24,8 @@ public class VersionController {
     @Value("${timestamp}")
     private String buildDate;
 
-    @RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(
+                    method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
     public HttpEntity<String> doPayment() {
         return new ResponseEntity<String>(projectVersion + " - " + buildDate, HttpStatus.OK);
     }

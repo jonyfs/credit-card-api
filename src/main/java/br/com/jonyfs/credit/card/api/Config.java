@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableEntityLinks
 public class Config {
 
-	@Bean
-	public CurieProvider curieProvider() {
-		return new DefaultCurieProvider("ex", new UriTemplate("https://creditcardapi.herokuapp.com/api/{rel}"));
-	}
+    @Bean
+    public CurieProvider curieProvider() {
+        return new DefaultCurieProvider("ex", new UriTemplate("https://creditcardapi.herokuapp.com/api/{rel}"));
+    }
 }

@@ -25,41 +25,42 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
 @RestController
 @ExposesResourceFor(PaymentResource.class)
-@RequestMapping(value = ResourcePaths.Payment.V3.ROOT)
+@RequestMapping(
+                value = ResourcePaths.Payment.V3.ROOT)
 public class PaymentControllerV3 {
 
-	@Resource
-	PaymentService paymentService;
+    @Resource
+    PaymentService             paymentService;
 
-	@Resource
-	PaymentResourceAssemblerV3 paymentResourceAssembler;
+    @Resource
+    PaymentResourceAssemblerV3 paymentResourceAssembler;
 
-	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<org.springframework.hateoas.Resource<String>> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
-		}
-		payment = paymentService.doPayment(payment);
-		
-		org.springframework.hateoas.Resource<String> resource = new org.springframework.hateoas.Resource<String>(
-				payment.getId());
-		resource.add(paymentResourceAssembler.linkToSingleResource(payment));
-		
-		return new ResponseEntity<org.springframework.hateoas.Resource<String>>(resource,HttpStatus.CREATED);
-	}
+    @ResponseBody
+    @RequestMapping(
+                    method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<org.springframework.hateoas.Resource<String>> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
+        }
+        payment = paymentService.doPayment(payment);
 
-	@ResponseBody
-	@RequestMapping(value = ResourcePaths.ID, method = RequestMethod.GET, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<PaymentResource> getPayment(@PathVariable(value = "id") String id) {
-		Payment entity = paymentService.getPayment(id);
-		if (entity == null) {
-			throw new EntityNotFoundException(String.valueOf(id));
-		}
-		final PaymentResource resource = paymentResourceAssembler.toResource(entity);
-		return ResponseEntity.ok(resource);
-	}
+        org.springframework.hateoas.Resource<String> resource = new org.springframework.hateoas.Resource<String>(payment.getId());
+        resource.add(paymentResourceAssembler.linkToSingleResource(payment));
+
+        return new ResponseEntity<org.springframework.hateoas.Resource<String>>(resource, HttpStatus.CREATED);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+                    value = ResourcePaths.ID, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<PaymentResource> getPayment(@PathVariable(
+                    value = "id") String id) {
+        Payment entity = paymentService.getPayment(id);
+        if (entity == null) {
+            throw new EntityNotFoundException(String.valueOf(id));
+        }
+        final PaymentResource resource = paymentResourceAssembler.toResource(entity);
+        return ResponseEntity.ok(resource);
+    }
 
 }
