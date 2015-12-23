@@ -1,7 +1,15 @@
-# Credit Card Api Sample
+# Credit Card API Sample
 
 	Sample with Integration Tests, Spring Boot, Embedded MongoDB, HATEOAS, Spring REST Docs and AsciiDoctor
+	
+	The Credit Card API uses CodeShip and Heroku to Continuous Delivery.
+	 
+	Codeship is a fast and secure hosted Continuous Delivery platform that scales with your needs.
+	
+	Heroku is a cloud application platform that offers a new way of building and deploying web apps.
 		
+<img src="credit-card-api.png" alt="The Credit Card API" style="width: 800px;" />
+
 
 ### Model Class Diagram
 
