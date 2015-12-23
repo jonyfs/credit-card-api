@@ -11,9 +11,11 @@
 <img src="credit-card-api.png" alt="The Credit Card API" style="width: 800px;" />
 
 
+
 ### Model Class Diagram
 
 <img src="model-class-diagram.png" alt="Model Class Diagram" style="width: 800px;" />
+
 
 
 ### Api Class Diagram
@@ -21,14 +23,17 @@
 <img src="api-class-diagram.png" alt="Api Class Diagram" style="width: 800px;" />
 
 
+
 ### Api Sequence Diagram - Do Payment
 
 <img src="api-sequence-diagram-do-payment.png" alt="Api Sequence Diagram - Do Payment" style="width: 800px;" />
 
 
+
 ### Api Sequence Diagram - Get Payment
 
 <img src="api-sequence-diagram-get-payment.png" alt="Api Sequence Diagram - Get Payment" style="width: 800px;" />
+
 
 
 ### MongoDB Embebbed Config
@@ -37,12 +42,14 @@
 * url: localhost
 * port: 27057
 
-Obs.: I used [RoboMongo](http://robomongo.org/) client to access data in MongoDB.
+Obs.: I used [MongoDB Compass](https://www.mongodb.com/products/compass) client to access data in MongoDB.
+
 
 
 ### Spring Boot Config
 
 See [application.properties](https://github.com/jonyfs/credit-card-api/blob/master/src/main/resources/application.properties) 
+
 
 
 ### Tools
@@ -62,29 +69,33 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 [AsciiDoctor](http://asciidoctor.org/)
 
 
+
 ### AsciiDoctor file
 
 See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master/src/main/asciidoc/credit-card-api.adoc) 
 
-### Continuous integration
+### API Document Sample	
+See [credit-card-api.pdf](https://github.com/jonyfs/credit-card-api/blob/master/doc/credit-card-api.pdf) 
+
+### Continuous Delivery
 
 [ ![Codeship Status for jonyfs/credit-card-api](https://codeship.com/projects/1aedda50-85c9-0133-cc21-12253304c6fc/status?branch=master)](https://codeship.com/projects/122440)
+
+
 
 ### How test?
 
 	Run mvn package spring-boot:run 
 
 
+
 ### How access?	
 
-	http://localhost:8080/api
+* your local environment: http://localhost:8080/api
+
+* online: https://creditcardapi.herokuapp.com/api
+
 
 	
-### API Document Sample	
-See [credit-card-api.pdf](https://github.com/jonyfs/credit-card-api/blob/master/doc/credit-card-api.pdf) 	
 	
-
-### Online Example	
-
-https://creditcardapi.herokuapp.com/api
 
