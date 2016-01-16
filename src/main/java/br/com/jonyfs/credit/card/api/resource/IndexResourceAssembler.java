@@ -28,7 +28,7 @@ public class IndexResourceAssembler {
 
     public IndexResource buildIndex() {
 
-        final IndexResource resource = new IndexResource("credit-card-api", "Credit Card API", "Jony Santos", "https://www.linkedin.com/in/jonyfs");
+        final IndexResource resource = new IndexResource("credit-card-api", "Credit Card API", "Jony Santos", "https://www.linkedin.com/in/jonyfs","https://github.com/jonyfs/credit-card-api");
 
         resource.add(linkTo(PaymentControllerV1.class).withRel("payments"), linkTo(PaymentControllerV2.class).withRel("payments"), linkTo(VersionController.class).withRel("version"));
         // Note this is unfortunately hand-written. If you add a new entity,
