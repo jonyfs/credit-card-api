@@ -11,50 +11,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentation;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(
-                classes = CreditCardApiApplication.class)
-@WebAppConfiguration
+@SpringBootTest
+@ExtendWith(RestDocumentationExtension.class)
 public class VersionControllerIntegrationTests {
 
-    protected MockMvc                      mockMvc;
-
-    @Rule
-    public final RestDocumentation         restDocumentation = new RestDocumentation("target/generated-snippets");
+    protected MockMvc mockMvc;
 
     private RestDocumentationResultHandler document;
 
     @Autowired
-    private WebApplicationContext          wac;
+    private WebApplicationContext wac;
 
-    @Before
-    public void setUp() throws Exception {
-
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).apply(documentationConfiguration(this.restDocumentation).uris()).build();
+    @BeforeEach
+    public void setUp(RestDocumentationContextProvider restDocumentation) throws Exception {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .apply(documentationConfiguration(restDocumentation).uris())
+                .build();
     }
 
     @Test
     public void test() throws Exception {
         this.document = document("." + ResourcePaths.ROOT_API, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()));
 
-        this.mockMvc.perform(get(ResourcePaths.Version.ROOT).accept(MediaType.APPLICATION_JSON)).andDo(print()).andDo(document).andExpect(status().isOk()).andExpect((jsonPath("$", notNullValue())));
+        this.mockMvc.perform(get(ResourcePaths.Version.ROOT).accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andDo(document)
+                    .andExpect(status().isOk())
+                    .andExpect((jsonPath("$", notNullValue())));
     }
 
 }

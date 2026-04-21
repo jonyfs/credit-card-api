@@ -3,8 +3,8 @@ package br.com.jonyfs.credit.card.api.resource;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.hateoas.ResourceSupport;
-import org.springframework.hateoas.core.Relation;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,13 +16,14 @@ import br.com.jonyfs.credit.card.api.model.Product;
 import br.com.jonyfs.credit.card.api.model.Store;
 
 @Relation(value = "payment", collectionRelation = "payments")
-public class PaymentResource extends ResourceSupport {
+public class PaymentResource extends RepresentationModel<PaymentResource> {
 
     private Payment payment;
 
     @JsonCreator
-    public PaymentResource(@JsonProperty("cardType") CardType cardType, @JsonProperty("cardNumber") String cardNumber, @JsonProperty("expirationDate") Date expirationDate,
-                    @JsonProperty("store") Store store, @JsonProperty("products") List<Product> products) {
+    public PaymentResource(@JsonProperty("cardType") CardType cardType, @JsonProperty("cardNumber") String cardNumber,
+                           @JsonProperty("expirationDate") Date expirationDate,
+                           @JsonProperty("store") Store store, @JsonProperty("products") List<Product> products) {
         super();
         payment = new Payment(cardType, cardNumber, expirationDate, store, products);
     }

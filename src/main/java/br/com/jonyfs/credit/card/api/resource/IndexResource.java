@@ -1,8 +1,8 @@
 package br.com.jonyfs.credit.card.api.resource;
 
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
-public class IndexResource extends ResourceSupport {
+public class IndexResource extends RepresentationModel<IndexResource> {
 
     private final String name;
     private final String description;

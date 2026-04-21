@@ -1,16 +1,16 @@
 package br.com.jonyfs.credit.card.api.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import org.springframework.hateoas.server.EntityLinks;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Service;
 
 import br.com.jonyfs.credit.card.api.controller.PaymentControllerV3;
 import br.com.jonyfs.credit.card.api.model.Payment;
 
 @Service
-public class PaymentResourceAssemblerV3 extends ResourceAssemblerSupport<Payment, PaymentResource> {
+public class PaymentResourceAssemblerV3 extends RepresentationModelAssemblerSupport<Payment, PaymentResource> {
 
     @Autowired
     EntityLinks entityLinks;
@@ -20,17 +20,16 @@ public class PaymentResourceAssemblerV3 extends ResourceAssemblerSupport<Payment
     }
 
     @Override
-    public PaymentResource toResource(Payment entity) {
-        PaymentResource resource = createResourceWithId(entity.getId(), entity);
-        return resource;
+    public PaymentResource toModel(Payment entity) {
+        return createModelWithId(entity.getId(), entity);
     }
 
     @Override
-    protected PaymentResource instantiateResource(Payment entity) {
+    protected PaymentResource instantiateModel(Payment entity) {
         return new PaymentResource(entity);
     }
 
     public Link linkToSingleResource(Payment entity) {
-        return entityLinks.linkToSingleResource(PaymentResource.class, entity.getId());
+        return entityLinks.linkToItemResource(PaymentResource.class, entity.getId());
     }
 }

@@ -1,7 +1,7 @@
 package br.com.jonyfs.credit.card.api;
 
-import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -18,29 +18,27 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentation;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -59,98 +57,85 @@ import br.com.jonyfs.credit.card.api.model.Store;
 import br.com.jonyfs.credit.card.api.service.PaymentService;
 import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(
-                classes = CreditCardApiApplication.class)
-@WebAppConfiguration
+import jakarta.validation.constraints.NotEmpty;
+
+@SpringBootTest
+@ExtendWith(RestDocumentationExtension.class)
 public class PaymentControllerV3IntegrationTests {
 
-    protected ObjectMapper         mapper            = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(SerializationFeature.INDENT_OUTPUT, true);
+    protected ObjectMapper mapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.INDENT_OUTPUT, true);
 
-    protected MockMvc              mockMvc;
-
-    @Rule
-    public final RestDocumentation restDocumentation = new RestDocumentation("target/generated-snippets");
+    protected MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext  wac;
+    private WebApplicationContext wac;
 
-    private final DateFormat       df                = new SimpleDateFormat("yyyy-mm-dd");
+    private final DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 
     @Resource
-    PaymentService                 paymentService;
+    PaymentService paymentService;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp(RestDocumentationContextProvider restDocumentation) throws Exception {
+        MockitoAnnotations.openMocks(this);
 
-        MockitoAnnotations.initMocks(this);
-
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).apply(documentationConfiguration(this.restDocumentation).snippets()).build();
-        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .apply(documentationConfiguration(restDocumentation).snippets())
+                .build();
 
         assertNotNull(mockMvc);
-
     }
 
     public HttpHeaders getRequestHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.ACCEPT_ENCODING, "gzip");
         return httpHeaders;
-
     }
 
     public HttpHeaders getResponseHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.CONTENT_ENCODING, "gzip");
         return httpHeaders;
-
     }
 
     public Product getBike() {
-        Product product = new Product("Bike", 20.75);
-        return product;
+        return new Product("Bike", 20.75);
     }
 
     public Product getIphone6S() {
-        Product product = new Product("iPhone 6S", 199.99);
-        return product;
+        return new Product("iPhone 6S", 199.99);
     }
 
     public Product getMotoX2015() {
-        Product product = new Product("Moto X 2015", 149.27);
-        return product;
+        return new Product("Moto X 2015", 149.27);
     }
 
     public Product getSandiskCruzer32GBFlashDrive() {
-        Product product = new Product("Sandisk Cruzer 32GB Flash Drive", 9.99);
-        return product;
+        return new Product("Sandisk Cruzer 32GB Flash Drive", 9.99);
     }
 
     public Store getAmazon() {
-        Store store = new Store("Amazon");
-        return store;
+        return new Store("Amazon");
     }
 
     public Store getBestBuy() {
-        Store store = new Store("Best Buy");
-        return store;
+        return new Store("Best Buy");
     }
 
     public Store getBhPhoto() {
-        Store store = new Store("BH Photo");
-        return store;
+        return new Store("BH Photo");
     }
 
     public Store getWalmart() {
-        Store store = new Store("Walmart");
-        return store;
+        return new Store("Walmart");
     }
 
     public Date getExpirationDate() {
         try {
             return df.parse("2030-04-30");
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
@@ -160,7 +145,10 @@ public class PaymentControllerV3IntegrationTests {
 
         PaymentBuilder builder = new PaymentBuilder();
         Payment payment = builder.build();
-        mockMvc.perform(post(ResourcePaths.Payment.V3.ROOT).contentType(MediaType.APPLICATION_JSON).headers(getRequestHeaders()).content(mapper.writeValueAsString(payment)))
+        mockMvc.perform(post(ResourcePaths.Payment.V3.ROOT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(getRequestHeaders())
+                .content(mapper.writeValueAsString(payment)))
                .andDo(print())
                .andExpect(status().isUnprocessableEntity())
                .andExpect((jsonPath("$", notNullValue())))
@@ -171,10 +159,11 @@ public class PaymentControllerV3IntegrationTests {
                .andDo(document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
                                preprocessRequest(prettyPrint()),
                                preprocessResponse(prettyPrint()),
-                               responseFields(fieldWithPath("code").type(JsonFieldType.STRING).description("The code id of problem. Use it for support only"),
-                                              fieldWithPath("exception").type(JsonFieldType.STRING).description("Exception"),
-                                              fieldWithPath("message").type(JsonFieldType.STRING).description("The message to explain the problem"),
-                                              fieldWithPath("errors").type(JsonFieldType.ARRAY).description("Array with constraint problems"))))
+                               responseFields(
+                                       fieldWithPath("code").type(JsonFieldType.STRING).description("The code id of problem. Use it for support only"),
+                                       fieldWithPath("exception").type(JsonFieldType.STRING).description("Exception"),
+                                       fieldWithPath("message").type(JsonFieldType.STRING).description("The message to explain the problem"),
+                                       fieldWithPath("errors").type(JsonFieldType.ARRAY).description("Array with constraint problems"))))
                .andReturn();
     }
 
@@ -190,7 +179,10 @@ public class PaymentControllerV3IntegrationTests {
 
         Payment payment = builder.build();
 
-        mockMvc.perform(post(ResourcePaths.Payment.V3.ROOT).contentType(MediaType.APPLICATION_JSON).headers(getRequestHeaders()).content(mapper.writeValueAsString(payment)))
+        mockMvc.perform(post(ResourcePaths.Payment.V3.ROOT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(getRequestHeaders())
+                .content(mapper.writeValueAsString(payment)))
                .andDo(print())
                .andExpect(status().isCreated())
                .andExpect((jsonPath("$", notNullValue())))
@@ -198,24 +190,24 @@ public class PaymentControllerV3IntegrationTests {
                .andDo(document("." + ResourcePaths.Payment.V3.ROOT + "/{method-name}",
                                preprocessRequest(prettyPrint()),
                                preprocessResponse(prettyPrint()),
-                               requestFields(fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
-                                             fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
-                                             fieldWithPath("cardNumber").type(JsonFieldType.STRING)
-                                                                        .description("Credit Card Number")
-                                                                        .attributes(key("constraints").value(CreditCardNumber.class.getSimpleName())),
-                                             fieldWithPath("expirationDate").type(JsonFieldType.OBJECT)
-                                                                            .description("Credit Card Expiration Date")
-                                                                            .attributes(key("constraints").value(NotNull.class.getSimpleName())),
-                                             fieldWithPath("store").type(JsonFieldType.OBJECT)
-                                                                   .description("Store")
-                                                                   .type(JsonFieldType.ARRAY)
-                                                                   .attributes(key("constraints").value(NotNull.class.getSimpleName())),
-                                             fieldWithPath("products").type(JsonFieldType.ARRAY)
-                                                                      .description("Products Array")
-                                                                      .type(JsonFieldType.ARRAY)
-                                                                      .attributes(key("constraints").value(NotEmpty.class.getSimpleName())))))
+                               requestFields(
+                                       fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
+                                       fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("cardNumber").type(JsonFieldType.STRING)
+                                               .description("Credit Card Number")
+                                               .attributes(key("constraints").value(CreditCardNumber.class.getSimpleName())),
+                                       fieldWithPath("expirationDate").type(JsonFieldType.OBJECT)
+                                               .description("Credit Card Expiration Date")
+                                               .attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("store").type(JsonFieldType.OBJECT)
+                                               .description("Store")
+                                               .type(JsonFieldType.ARRAY)
+                                               .attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("products").type(JsonFieldType.ARRAY)
+                                               .description("Products Array")
+                                               .type(JsonFieldType.ARRAY)
+                                               .attributes(key("constraints").value(NotEmpty.class.getSimpleName())))))
                .andReturn();
-
     }
 
     @Test
@@ -232,9 +224,11 @@ public class PaymentControllerV3IntegrationTests {
         Payment payment = builder.build();
 
         payment = paymentService.doPayment(payment);
-        assertNotNull("payment is null!", payment);
+        assertNotNull(payment, "payment is null!");
 
-        mockMvc.perform(get(ResourcePaths.Payment.V3.GET, payment.getId()).contentType(MediaType.APPLICATION_JSON).headers(getRequestHeaders()))
+        mockMvc.perform(get(ResourcePaths.Payment.V3.GET, payment.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(getRequestHeaders()))
                .andDo(print())
                .andExpect(status().isOk())
                .andExpect((jsonPath("$", notNullValue())))
@@ -247,24 +241,24 @@ public class PaymentControllerV3IntegrationTests {
                                preprocessRequest(prettyPrint()),
                                preprocessResponse(prettyPrint()),
                                pathParameters(parameterWithName("id").description("The Credit Card Transaction ID.")),
-
-                               responseFields(fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
-                                              fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
-                                              fieldWithPath("cardNumber").type(JsonFieldType.STRING)
-                                                                         .description("Credit Card Number")
-                                                                         .attributes(key("constraints").value(CreditCardNumber.class.getSimpleName())),
-                                              fieldWithPath("expirationDate").type(JsonFieldType.OBJECT)
-                                                                             .description("Credit Card Expiration Date")
-                                                                             .attributes(key("constraints").value(NotNull.class.getSimpleName())),
-                                              fieldWithPath("store").type(JsonFieldType.OBJECT)
-                                                                    .description("Store")
-                                                                    .type(JsonFieldType.ARRAY)
-                                                                    .attributes(key("constraints").value(NotNull.class.getSimpleName())),
-                                              fieldWithPath("products").type(JsonFieldType.ARRAY)
-                                                                       .description("Products Array")
-                                                                       .type(JsonFieldType.ARRAY)
-                                                                       .attributes(key("constraints").value(NotEmpty.class.getSimpleName())),
-                                              fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS links"))))
+                               responseFields(
+                                       fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
+                                       fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("cardNumber").type(JsonFieldType.STRING)
+                                               .description("Credit Card Number")
+                                               .attributes(key("constraints").value(CreditCardNumber.class.getSimpleName())),
+                                       fieldWithPath("expirationDate").type(JsonFieldType.OBJECT)
+                                               .description("Credit Card Expiration Date")
+                                               .attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("store").type(JsonFieldType.OBJECT)
+                                               .description("Store")
+                                               .type(JsonFieldType.ARRAY)
+                                               .attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("products").type(JsonFieldType.ARRAY)
+                                               .description("Products Array")
+                                               .type(JsonFieldType.ARRAY)
+                                               .attributes(key("constraints").value(NotEmpty.class.getSimpleName())),
+                                       fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS links"))))
                .andReturn();
     }
 

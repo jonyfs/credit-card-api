@@ -1,12 +1,11 @@
 package br.com.jonyfs.credit.card.api;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import br.com.jonyfs.credit.card.api.model.CardTypeTest;
 
-@RunWith(Suite.class)
-@SuiteClasses({ CardTypeTest.class })
+@Suite
+@SelectClasses({ CardTypeTest.class })
 public class AllTests {
 }
