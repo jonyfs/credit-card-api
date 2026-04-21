@@ -1,6 +1,6 @@
 package br.com.jonyfs.credit.card.api.service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment getPayment(String id) {
-        return paymentRepository.findOne(id);
+        return paymentRepository.findById(id).orElse(null);
     }
 
     @Override

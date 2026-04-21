@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +22,14 @@ import br.com.jonyfs.credit.card.api.model.Store;
 import br.com.jonyfs.credit.card.api.repository.PaymentRepository;
 
 @SpringBootApplication
-@PropertySource(
-                value = "classpath:application.properties")
+@PropertySource(value = "classpath:application.properties")
 public class CreditCardApiApplication {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CreditCardApiApplication.class);
 
     @Autowired
-    PaymentRepository          paymentRepository;
+    PaymentRepository paymentRepository;
 
-    // To resolve ${} in @Value
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();

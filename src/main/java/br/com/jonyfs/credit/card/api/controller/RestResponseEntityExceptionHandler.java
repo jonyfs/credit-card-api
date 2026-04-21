@@ -4,7 +4,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +37,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             ErrorResource errorResource = new ErrorResource(throwable);
             LOGGER.error("erro " + errorResource.getCode() + " capturado para ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
             return response(errorResource, status);
-        }
-        else {
+        } else {
             LOGGER.error("error for ip " + request.getRemoteAddr() + " ==> ", status);
             return response(null, status);
         }
@@ -49,8 +48,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             ErrorResource errorResource = new ErrorResource(throwable, fieldErrors);
             LOGGER.error("error " + errorResource.getCode() + " for ip " + request.getRemoteAddr() + " ==> " + errorResource, throwable);
             return response(errorResource, status);
-        }
-        else {
+        } else {
             LOGGER.error("erro for ip " + request.getRemoteAddr() + " ==> ", status);
             return response(null, status);
         }

@@ -5,16 +5,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import org.springframework.hateoas.server.EntityLinks;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Service;
 
 import br.com.jonyfs.credit.card.api.controller.PaymentControllerV1;
 import br.com.jonyfs.credit.card.api.model.Payment;
 
 @Service
-public class PaymentResourceAssemblerV1 extends ResourceAssemblerSupport<Payment, PaymentResource> {
+public class PaymentResourceAssemblerV1 extends RepresentationModelAssemblerSupport<Payment, PaymentResource> {
 
     @Autowired
     EntityLinks entityLinks;
@@ -24,26 +24,24 @@ public class PaymentResourceAssemblerV1 extends ResourceAssemblerSupport<Payment
     }
 
     @Override
-    public PaymentResource toResource(Payment entity) {
-        PaymentResource resource = createResourceWithId(entity.getId(), entity);
-        return resource;
+    public PaymentResource toModel(Payment entity) {
+        return createModelWithId(entity.getId(), entity);
     }
 
     public List<PaymentResource> toPageResources(Page<Payment> page) {
         List<PaymentResource> resources = new ArrayList<>();
         for (Payment entity : page.getContent()) {
-            resources.add(toResource(entity));
+            resources.add(toModel(entity));
         }
-        // todo implementar a parte da página
         return resources;
     }
 
     @Override
-    protected PaymentResource instantiateResource(Payment entity) {
+    protected PaymentResource instantiateModel(Payment entity) {
         return new PaymentResource(entity);
     }
 
     public Link linkToSingleResource(Payment entity) {
-        return entityLinks.linkToSingleResource(PaymentResource.class, entity.getId());
+        return entityLinks.linkToItemResource(PaymentResource.class, entity.getId());
     }
 }

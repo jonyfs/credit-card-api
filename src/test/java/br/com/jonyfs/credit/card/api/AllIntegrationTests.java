@@ -1,13 +1,10 @@
 package br.com.jonyfs.credit.card.api;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.springframework.stereotype.Component;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@SuiteClasses({ IndexControllerIntegrationTests.class, VersionControllerIntegrationTests.class, PaymentControllerV3IntegrationTests.class })
-@Component
+@Suite
+@SelectClasses({ IndexControllerIntegrationTests.class, VersionControllerIntegrationTests.class, PaymentControllerV3IntegrationTests.class })
 public class AllIntegrationTests {
 
 }
