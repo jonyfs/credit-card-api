@@ -48,7 +48,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import org.springframework.context.annotation.Import;
+
 import br.com.jonyfs.credit.card.api.builder.PaymentBuilder;
+import br.com.jonyfs.credit.card.api.config.MongoTestConfig;
 import br.com.jonyfs.credit.card.api.exceptions.InvalidRequestException;
 import br.com.jonyfs.credit.card.api.model.CardType;
 import br.com.jonyfs.credit.card.api.model.Payment;
@@ -60,6 +63,7 @@ import br.com.jonyfs.credit.card.api.util.ResourcePaths;
 import jakarta.validation.constraints.NotEmpty;
 
 @SpringBootTest
+@Import(MongoTestConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
 public class PaymentControllerV3IntegrationTests {
 
@@ -163,7 +167,10 @@ public class PaymentControllerV3IntegrationTests {
                                        fieldWithPath("code").type(JsonFieldType.STRING).description("The code id of problem. Use it for support only"),
                                        fieldWithPath("exception").type(JsonFieldType.STRING).description("Exception"),
                                        fieldWithPath("message").type(JsonFieldType.STRING).description("The message to explain the problem"),
-                                       fieldWithPath("errors").type(JsonFieldType.ARRAY).description("Array with constraint problems"))))
+                                       fieldWithPath("errors").type(JsonFieldType.ARRAY).description("Array with constraint problems"),
+                                       fieldWithPath("errors[].code").type(JsonFieldType.STRING).description("Constraint violation code"),
+                                       fieldWithPath("errors[].message").type(JsonFieldType.STRING).description("Constraint violation message"),
+                                       fieldWithPath("errors[].parameter").type(JsonFieldType.STRING).description("Field with constraint violation"))))
                .andReturn();
     }
 
@@ -191,22 +198,23 @@ public class PaymentControllerV3IntegrationTests {
                                preprocessRequest(prettyPrint()),
                                preprocessResponse(prettyPrint()),
                                requestFields(
-                                       fieldWithPath("id").type(JsonFieldType.STRING).description("The Credit Card Transaction ID."),
+                                       fieldWithPath("id").ignored(),
                                        fieldWithPath("cardType").type(JsonFieldType.STRING).description("Credit Card Type").attributes(key("constraints").value(NotNull.class.getSimpleName())),
                                        fieldWithPath("cardNumber").type(JsonFieldType.STRING)
                                                .description("Credit Card Number")
                                                .attributes(key("constraints").value(CreditCardNumber.class.getSimpleName())),
-                                       fieldWithPath("expirationDate").type(JsonFieldType.OBJECT)
-                                               .description("Credit Card Expiration Date")
+                                       fieldWithPath("expirationDate").type(JsonFieldType.NUMBER)
+                                               .description("Credit Card Expiration Date (Unix timestamp)")
                                                .attributes(key("constraints").value(NotNull.class.getSimpleName())),
                                        fieldWithPath("store").type(JsonFieldType.OBJECT)
                                                .description("Store")
-                                               .type(JsonFieldType.ARRAY)
                                                .attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("store.name").type(JsonFieldType.STRING).description("Store name"),
                                        fieldWithPath("products").type(JsonFieldType.ARRAY)
                                                .description("Products Array")
-                                               .type(JsonFieldType.ARRAY)
-                                               .attributes(key("constraints").value(NotEmpty.class.getSimpleName())))))
+                                               .attributes(key("constraints").value(NotEmpty.class.getSimpleName())),
+                                       fieldWithPath("products[].name").type(JsonFieldType.STRING).description("Product name"),
+                                       fieldWithPath("products[].price").type(JsonFieldType.NUMBER).description("Product price"))))
                .andReturn();
     }
 
@@ -247,18 +255,21 @@ public class PaymentControllerV3IntegrationTests {
                                        fieldWithPath("cardNumber").type(JsonFieldType.STRING)
                                                .description("Credit Card Number")
                                                .attributes(key("constraints").value(CreditCardNumber.class.getSimpleName())),
-                                       fieldWithPath("expirationDate").type(JsonFieldType.OBJECT)
+                                       fieldWithPath("expirationDate").type(JsonFieldType.VARIES)
                                                .description("Credit Card Expiration Date")
                                                .attributes(key("constraints").value(NotNull.class.getSimpleName())),
                                        fieldWithPath("store").type(JsonFieldType.OBJECT)
                                                .description("Store")
-                                               .type(JsonFieldType.ARRAY)
                                                .attributes(key("constraints").value(NotNull.class.getSimpleName())),
+                                       fieldWithPath("store.name").type(JsonFieldType.STRING).description("Store name"),
                                        fieldWithPath("products").type(JsonFieldType.ARRAY)
                                                .description("Products Array")
-                                               .type(JsonFieldType.ARRAY)
                                                .attributes(key("constraints").value(NotEmpty.class.getSimpleName())),
-                                       fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS links"))))
+                                       fieldWithPath("products[].name").type(JsonFieldType.STRING).description("Product name"),
+                                       fieldWithPath("products[].price").type(JsonFieldType.NUMBER).description("Product price"),
+                                       fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS links"),
+                                       fieldWithPath("_links.self").type(JsonFieldType.OBJECT).description("Self link"),
+                                       fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("Self link URL"))))
                .andReturn();
     }
 

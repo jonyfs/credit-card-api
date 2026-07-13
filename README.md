@@ -2,12 +2,8 @@
 
 	Example with Integration Tests, Spring Boot, Embedded MongoDB, HATEOAS, Spring REST Docs and AsciiDoctor
 	
-	The Credit Card API uses CodeShip and Heroku for Continuous Delivery.
-	 
-	Codeship is a fast and secure hosted Continuous Delivery platform that scales with your needs.
+	The Credit Card API uses GitHub Actions and Heroku for Continuous Delivery.
 	
-	Heroku is a cloud application platform that offers a new way of building and deploying web apps.
-		
 <img src="credit-card-api.png" alt="The Credit Card API" style="width: 800px;" />
 
 
@@ -36,19 +32,34 @@
 
 
 
-### MongoDB Embebbed Config
+### MongoDB Config (Tests)
+* In-memory MongoDB provided by [mongo-java-server](https://github.com/bwaldvogel/mongo-java-server) (no external process required for tests)
 * Database: credit-card
 * Collections: payments
-* url: localhost
-* port: 27057
 
-Obs.: I used [MongoDB Compass](https://www.mongodb.com/products/compass) client to access data in MongoDB.
+For production, configure `spring.data.mongodb.uri` or `spring.data.mongodb.host/port/database` in `application.properties`.
+
+Obs.: [MongoDB Compass](https://www.mongodb.com/products/compass) can be used as a GUI client.
 
 
 
 ### Spring Boot Config
 
-See [application.properties](https://github.com/jonyfs/credit-card-api/blob/master/src/main/resources/application.properties) 
+See [application.properties](https://github.com/jonyfs/credit-card-api/blob/master/src/main/resources/application.properties)
+
+
+
+### Tech Stack
+
+| Technology | Version |
+|---|---|
+| Java | 21 |
+| Spring Boot | 3.3.6 |
+| Spring HATEOAS | 2.3.x |
+| Spring REST Docs | 3.x |
+| MongoDB Driver | 5.x |
+| mongo-java-server (test) | 1.47.0 |
+| Maven | 3.9.9 |
 
 
 
@@ -62,7 +73,7 @@ See [application.properties](https://github.com/jonyfs/credit-card-api/blob/mast
 
 [MongoDB](https://www.mongodb.com/)
 
-[embedmongo-spring](https://github.com/jirutka/embedmongo-spring)
+[mongo-java-server](https://github.com/bwaldvogel/mongo-java-server)
 
 [de.flapdoodle.embed.mongo](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo)
 
@@ -77,25 +88,26 @@ See [credit-card-api.adoc](https://github.com/jonyfs/credit-card-api/blob/master
 ### API Document Sample	
 See [credit-card-api.pdf](https://github.com/jonyfs/credit-card-api/blob/master/doc/credit-card-api.pdf) 
 
-### Continuous Delivery
+### How to build and run?
 
-[ ![Codeship Status for jonyfs/credit-card-api](https://codeship.com/projects/1aedda50-85c9-0133-cc21-12253304c6fc/status?branch=master)](https://codeship.com/projects/122440)
+Requirements: **Java 21**, **Maven 3.9+**
 
+```bash
+mvn package spring-boot:run
+```
 
+### How to run tests?
 
-### How test?
+```bash
+# Unit tests only
+mvn test
 
-	Run mvn package spring-boot:run 
+# All tests (unit + integration)
+mvn verify
+```
 
+### How to access?
 
+* Local: http://localhost:8080/api
 
-### How access?	
-
-* your local environment: http://localhost:8080/api
-
-* online: https://creditcardapi.herokuapp.com/api
-
-
-	
-	
-
+* Online: https://creditcardapi.herokuapp.com/api
