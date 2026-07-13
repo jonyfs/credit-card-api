@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
@@ -41,16 +40,12 @@ public class PaymentControllerV2 {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<EntityModel<String>> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
+    public ResponseEntity<PaymentResource> doPayment(@RequestBody @Valid Payment payment, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InvalidRequestException("Invalid " + payment.getClass().getSimpleName(), bindingResult);
         }
         payment = paymentService.doPayment(payment);
-
-        EntityModel<String> resource = EntityModel.of(payment.getId());
-        resource.add(paymentResourceAssembler.linkToSingleResource(payment));
-
-        return new ResponseEntity<EntityModel<String>>(resource, HttpStatus.CREATED);
+        return new ResponseEntity<>(paymentResourceAssembler.toModel(payment), HttpStatus.CREATED);
     }
 
     @ResponseBody

@@ -15,7 +15,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.jonyfs.credit.card.api.binding.ErrorResource;
@@ -78,12 +77,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ResponseBody
     protected ResponseEntity<ErrorResource> handleAccessDenied(RuntimeException e, HttpServletRequest request) {
         return errorResponse(e, HttpStatus.FORBIDDEN, request);
-    }
-
-    @ExceptionHandler({ MaxUploadSizeExceededException.class })
-    @ResponseBody
-    protected ResponseEntity<ErrorResource> handleMaxUploadSizeExceeded(RuntimeException e, HttpServletRequest request) {
-        return errorResponse(e, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(Exception.class)

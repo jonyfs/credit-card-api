@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- configuration file for LogBack (slf4J implementation) See here for more 
-	details: http://gordondickens.com/wordpress/2013/03/27/sawing-through-the-java-loggers/ -->
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="logback.xsd" scan="true" scanPeriod="30 seconds">
 
@@ -17,14 +15,9 @@
 	<appender name="arquivo"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>./logs/api.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>./logs/logs/portal.%d{yyyy-MM-dd}.%i.log.zip
-			</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>50MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<!-- 2 semanas de historico -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>./logs/logs/portal.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<maxFileSize>50MB</maxFileSize>
 			<maxHistory>4</maxHistory>
 		</rollingPolicy>
 
@@ -39,8 +32,6 @@
 
 	<root level="INFO">
 		<appender-ref ref="arquivo" />
-	</root>
-	<root level="WARN">
 		<appender-ref ref="console" />
 	</root>
 </configuration>
